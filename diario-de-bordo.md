@@ -20,21 +20,21 @@ Copie este arquivo para o repositório da equipe e mantenha-o lá. É o registro
 
 ## Entradas
 
-### Semana de DD/MM
+### Semana de 18/09
 
-**Quem trabalhou e quanto:** nome — Xh; nome — Xh
+**Quem trabalhou e quanto:** Alisson — 1:30h
 
 **O que foi feito:**
--
--
+- Leitura das diretrizes da disciplina e organização da estrutura inicial do repositório.
+- Escolha da Trilha A e definição do problema focado na transparência dos gastos do Senado Federal para o cidadão comum.
 
-**Obstáculo:** (o que travou, quanto tempo custou, se foi resolvido)
+**Obstáculo:** Atraso na definição da equipa e do escopo. Resolvido com a decisão de assumir o projeto de forma individual.
 
-**Contato com o público:** (com quem, por que meio, o que disseram)
+**Contato com o público:** Nenhum ainda.
 
-**Evidência coletada:** (número, mensagem, print, lista — e onde está guardada)
+**Evidência coletada:** Nenhuma.
 
-**Próxima semana:**
+**Próxima semana:** Finalizar o rascunho do plano de ação e registar a entrada do diário referente ao dia 25/09.
 
 ---
 
