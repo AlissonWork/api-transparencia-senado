@@ -38,6 +38,29 @@ Copie este arquivo para o repositório da equipe e mantenha-o lá. É o registro
 
 ---
 
+### Semana de 25/09
+
+**Quem trabalhou e quanto:** Alisson — 3h
+
+**O que foi feito:**
+- Documentos da disciplina movidos para `disciplina/` e README do projeto criado na raiz.
+- Plano de ação preenchido: problema, público, fontes (CEAPS em domínio público, base atualizada
+  em 23/09/2026), cronograma e indicadores.
+- Público definido: vizinhos do bairro e clientes, adultos que não
+  programam. Duas pessoas identificadas (um vizinho e um cliente).
+
+**Obstáculo:** a primeira escolha de público ("cidadãos") era genérica demais. Resolvido trocando
+por um grupo concreto do convívio direto, mais fácil de alcançar.
+
+**Contato com o público:** nenhum ainda. Duas pessoas identificadas para a primeira conversa.
+
+**Evidência coletada:** nenhuma.
+
+**Próxima semana:** publicar a rota de gastos de um senador por ano com dados reais (Marco 1,
+02/10) e preparar a primeira conversa, marcada para 08/10, com uma das duas pessoas.
+
+---
+
 ### Semana de DD/MM
 
 **Quem trabalhou e quanto:**
