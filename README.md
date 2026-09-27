@@ -49,6 +49,9 @@ Dentro da API, o código segue arquitetura em camadas por módulo:
 `routes` (HTTP) → `service` (regras) → `repository` (banco), com `schemas` (Zod) definindo o
 formato de entrada e saída.
 
+A estrutura do banco (diagrama, tabelas por marco e decisões) está em
+[`docs/banco-de-dados.md`](docs/banco-de-dados.md).
+
 ## Tecnologias
 
 | Parte | Tecnologia |
