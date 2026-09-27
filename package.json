@@ -1,0 +1,20 @@
+{
+  "name": "api-transparencia-senado",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --filter @ts/api dev",
+    "build": "pnpm -r build",
+    "test": "pnpm -r test"
+  },
+  "license": "MIT",
+  "engines": {"node": ">=24"},
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "12.6.0",
+      "onFail": "download"
+    }
+  },
+  "packageManager": "pnpm@12.6.0",
+  "type": "module"
+}
