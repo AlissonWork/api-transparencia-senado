@@ -40,24 +40,36 @@ Copie este arquivo para o repositório da equipe e mantenha-o lá. É o registro
 
 ### Semana de 25/09
 
-**Quem trabalhou e quanto:** Alisson — 3h
+**Quem trabalhou e quanto:** Alisson — 6h (3h em 25/09, 3h em 27/09)
 
 **O que foi feito:**
-- Documentos da disciplina movidos para `disciplina/` e README do projeto criado na raiz.
-- Plano de ação preenchido: problema, público, fontes (CEAPS em domínio público, base atualizada
-  em 23/09/2026), cronograma e indicadores.
-- Público definido: vizinhos do bairro e clientes, adultos que não
-  programam. Duas pessoas identificadas (um vizinho e um cliente).
+- 25/09: documentos da disciplina movidos para `disciplina/` e README do projeto criado na raiz.
+- 25/09: plano de ação preenchido: problema, público, fontes (CEAPS em domínio público, base
+  atualizada em 23/09/2026), cronograma e indicadores.
+- 25/09: público definido: vizinhos do bairro e clientes, adultos que não programam. Duas pessoas
+  identificadas (um vizinho e um cliente).
+- 27/09: ambiente preparado (Node 24 LTS, pnpm, Docker) e banco de produção criado no Supabase.
+- 27/09: monorepo criado (pnpm workspaces, TypeScript) com a API Fastify respondendo `GET /health`
+  e o primeiro teste automatizado (Vitest). Entrou na `main` pelo PR #3 (issue #2).
+- 27/09: Postgres local com Docker Compose e pacote `packages/db` com Prisma.
+- 27/09: modelagem do banco a partir dos dados reais do Senado (14.455 despesas de 88 senadores em
+  2026), documentada em `docs/banco-de-dados.md`. Remuneração dos senadores incluída no escopo do
+  Marco 2.
 
-**Obstáculo:** a primeira escolha de público ("cidadãos") era genérica demais. Resolvido trocando
-por um grupo concreto do convívio direto, mais fácil de alcançar.
+**Obstáculo:**
+- A primeira escolha de público ("cidadãos") era genérica demais. Resolvido trocando por um grupo
+  concreto do convívio direto, mais fácil de alcançar.
+- A versão "latest" do Prisma era uma release candidate (8.0.0-rc) que trazia 319 pacotes
+  estranhos ao projeto. Resolvido fixando a versão estável 7.10.0 (~30 min).
+- A porta do Postgres no Docker não ficou acessível no Windows. Resolvido recriando o container.
 
 **Contato com o público:** nenhum ainda. Duas pessoas identificadas para a primeira conversa.
 
 **Evidência coletada:** nenhuma.
 
-**Próxima semana:** publicar a rota de gastos de um senador por ano com dados reais (Marco 1,
-02/10) e preparar a primeira conversa, marcada para 08/10, com uma das duas pessoas.
+**Próxima semana:** implementar o schema no Prisma, a sincronização com o Senado e a rota de gastos
+de um senador por ano; publicar a API (Marco 1, 02/10) e preparar a primeira conversa, marcada para
+08/10, com uma das duas pessoas.
 
 ---
 
