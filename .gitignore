@@ -6,3 +6,7 @@ coverage/
 !.env.example
 *.log
 generated/
+packages/db/.agents/
+packages/db/.claude/
+packages/db/.windsurf/
+packages/db/skills-lock.json
