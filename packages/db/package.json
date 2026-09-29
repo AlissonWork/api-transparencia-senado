@@ -8,7 +8,15 @@
     "prisma": "7.10.0",
     "typescript": "^7.0.2"
   },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "generate": "prisma generate",
+    "postinstall": "prisma generate"
+  },
   "dependencies": {
+    "@prisma/adapter-pg": "7.10.0",
     "@prisma/client": "7.10.0"
   }
 }
