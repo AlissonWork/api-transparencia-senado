@@ -13,32 +13,33 @@ datasource db {
 }
 
 model Senador {
-  codigo  Int @id
-  nome  String
-  nomeCompleto String? @map("nome_completo")
-  partido String?
-  uf String? @db.Char(2)
-  urlFoto String? @map("url_foto")
-  emExercicio  Boolean  @default(false) @map("em_exercicio")
-  atualizadoEm DateTime @updatedAt @map("atualizado_em")
+  codigo       Int           @id
+  nome         String
+  nomeCompleto String?       @map("nome_completo")
+  partido      String?
+  uf           String?       @db.Char(2)
+  urlFoto      String?       @map("url_foto")
+  emExercicio  Boolean       @default(false) @map("em_exercicio")
+  atualizadoEm DateTime      @updatedAt @map("atualizado_em")
   despesas     Despesa[]
   remuneracoes Remuneracao[]
+
   @@index([uf])
   @@map("senadores")
 }
 
 model Categoria {
-  id Int @id @default(autoincrement())
-  nomeOficial String @unique @map("nome_oficial")
-  nomeCurto String? @map("nome_curto")
-  slug String @unique
+  id          Int       @id @default(autoincrement())
+  nomeOficial String    @unique @map("nome_oficial")
+  nomeCurto   String?   @map("nome_curto")
+  slug        String    @unique
   despesas    Despesa[]
 
   @@map("categorias")
 }
 
 model Despesa {
-   id            Int       @id
+  id            Int       @id
   senadorCodigo Int       @map("senador_codigo")
   senador       Senador   @relation(fields: [senadorCodigo], references: [codigo])
   categoriaId   Int       @map("categoria_id")
@@ -50,7 +51,8 @@ model Despesa {
   documento     String?
   data          DateTime? @db.Date
   valor         Decimal   @db.Decimal(12, 2)
- 
+  tipoDocumento String?   @map("tipo_documento")
+
   @@index([senadorCodigo, ano])
   @@index([categoriaId, ano])
   @@map("despesas")
@@ -77,7 +79,7 @@ model Remuneracao {
   reversaoTeto            Decimal @default(0) @map("reversao_teto") @db.Decimal(12, 2)
   faltas                  Decimal @default(0) @db.Decimal(12, 2)
   remuneracaoLiquida      Decimal @default(0) @map("remuneracao_liquida") @db.Decimal(12, 2)
- 
+
   @@unique([senadorCodigo, ano, mes, tipoFolha])
   @@map("remuneracoes")
 }
@@ -91,6 +93,6 @@ model Sincronizacao {
   status       String
   registros    Int       @default(0)
   erro         String?
- 
+
   @@map("sincronizacoes")
 }
