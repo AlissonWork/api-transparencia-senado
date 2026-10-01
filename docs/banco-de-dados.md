@@ -40,6 +40,7 @@ erDiagram
         string fornecedor
         string cpfCnpj "CPF é mascarado na saída da API"
         string documento "opcional"
+        string tipoDocumento "opcional, ex.: Nota Fiscal, Recibo"
         date data "opcional, só exibição: tem valores inválidos"
         decimal valor "12,2"
     }
