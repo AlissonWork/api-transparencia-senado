@@ -10,7 +10,9 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "fastify": "^5.12.5"
+    "@ts/db": "workspace:*",
+    "fastify": "^5.12.5",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@types/node": "^24.19.0",
