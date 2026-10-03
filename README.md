@@ -104,6 +104,16 @@ pnpm install                  # instala as dependências e gera o cliente do Pri
 cp .env.example .env          # no PowerShell: Copy-Item .env.example .env
 ```
 
+Se o `corepack enable pnpm` falhar com `EPERM` ou "operação não permitida", o Node está instalado
+numa pasta protegida (comum no Windows, em `C:\Program Files\nodejs`). Rode só esse comando num
+terminal aberto como administrador (no Linux e no macOS, com `sudo`), ou instale o pnpm sem o corepack:
+
+```bash
+npm install -g pnpm@12.6.0
+```
+
+Confira com `pnpm --version`, que deve mostrar `12.6.0`.
+
 O `.env` já vem configurado para o banco local; não é preciso editar nada.
 
 ### 2. Subir o banco e criar as tabelas
