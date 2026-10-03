@@ -4,8 +4,9 @@ API pública e portal web que transformam os dados abertos do Senado Federal em 
 **quanto cada senador gastou da cota parlamentar, em quê, e como isso se compara com a cota
 disponível e com os colegas do mesmo estado.**
 
-> **Status:** em desenvolvimento. Ainda não há versão publicada.
-> Primeira versão prevista para 02/10/2026 (`v0.1.0`).
+> **Status:** em desenvolvimento. Já funciona localmente: o sync traz as despesas reais do Senado
+> e a rota `GET /senadores/{codigo}/gastos?ano=` devolve o total por categoria. Ainda não há
+> endereço público (previsto para 27/11/2026).
 
 ---
 
@@ -83,17 +84,95 @@ disciplina/     # documentos da disciplina CC0464 (plano, diário, marcos)
 
 ## Como rodar localmente
 
-Em breve. O objetivo é que baste:
+### Pré-requisitos
+
+- [Git](https://git-scm.com/)
+- [Node.js 24](https://nodejs.org/) (a versão está em `.node-version`)
+- [Docker](https://www.docker.com/) com o Docker Compose, **aberto e rodando** (no Windows e no
+  macOS, o Docker Desktop)
+
+Os comandos abaixo são para Bash (Linux, macOS ou Git Bash no Windows). Diferenças para o PowerShell
+estão indicadas.
+
+### 1. Instalar
 
 ```bash
-docker compose up
+git clone https://github.com/AlissonWork/api-transparencia-senado.git
+cd api-transparencia-senado
+corepack enable pnpm          # ativa o pnpm na versão definida no projeto
+pnpm install                  # instala as dependências e gera o cliente do Prisma
+cp .env.example .env          # no PowerShell: Copy-Item .env.example .env
+```
+
+O `.env` já vem configurado para o banco local; não é preciso editar nada.
+
+### 2. Subir o banco e criar as tabelas
+
+```bash
+docker compose up -d                              # sobe o PostgreSQL na porta 5432
+docker compose ps                                 # espere o STATUS mostrar "healthy"
+pnpm --filter @ts/db exec prisma migrate deploy   # cria as tabelas
+```
+
+Se a porta 5432 já estiver em uso por outro PostgreSQL na sua máquina, pare-o antes, ou o
+`migrate deploy` falha com `Authentication failed`.
+
+### 3. Trazer os dados do Senado
+
+```bash
+pnpm --filter @ts/sync sync
+```
+
+Saída esperada (os números crescem conforme o Senado lança novas despesas):
+
+```
+14563 despesas, 89 senadores e 8 categorias gravados
+```
+
+### 4. Rodar a API e consultar
+
+```bash
+pnpm dev
+```
+
+Com a API no ar (`Server listening at http://127.0.0.1:3333`), em outro terminal ou no navegador:
+
+```bash
+curl "http://localhost:3333/health"
+curl "http://localhost:3333/senadores/5926/gastos?ano=2026"
+```
+
+A segunda chamada devolve o total gasto pelo senador em 2026 e a divisão por categoria. O total pode
+ser conferido no resumo oficial do Senado:
+<https://adm.senado.gov.br/adm-dadosabertos/api/v1/senadores/5926/recursos-utilizados>.
+No PowerShell, use `curl.exe` em vez de `curl`, ou abra os endereços no navegador.
+
+### 5. Rodar os testes
+
+Os testes usam um banco separado, `transparencia_teste`, para não apagar os dados do sync. Na primeira
+vez, crie-o:
+
+```bash
+docker compose exec db createdb -U senado transparencia_teste
+DIRECT_URL="postgresql://senado:senado@localhost:5432/transparencia_teste" pnpm --filter @ts/db exec prisma migrate deploy
+```
+
+No PowerShell, a segunda linha fica em dois comandos:
+`$env:DIRECT_URL="postgresql://senado:senado@localhost:5432/transparencia_teste"` e depois
+`pnpm --filter @ts/db exec prisma migrate deploy`.
+
+Depois, sempre que quiser:
+
+```bash
+pnpm test
 ```
 
 ## Roadmap
 
-- [ ] **v0.1.0 (02/10/2026)**: gastos de um senador por ano, via API publicada
+- [x] **v0.1.0 (02/10/2026)**: gastos de um senador por ano, rodando localmente com dados reais
 - [ ] **v0.2.0 (13/11/2026)**: perfil do senador, consulta por estado e por categoria, portal web
-- [ ] **v1.0.0 (27/11/2026)**: documentação completa, validação com usuários reais
+- [ ] **v1.0.0 (27/11/2026)**: API publicada em endereço público, documentação completa, validação
+  com usuários reais
 
 ## Como contribuir
 
