@@ -81,9 +81,9 @@ Projeto individual: todos os papéis ficam com o mesmo integrante, com dedicaç�
 
 | Data | O que estará pronto |
 | :-- | :-- |
-| 02/10 (Marco 1) | Rota `GET /senadores/{id}/gastos?ano=` publicada em endereço público, devolvendo o total por categoria de um senador com dados reais do Senado (`v0.1.0`). |
+| 02/10 (Marco 1) | Rota `GET /senadores/{id}/gastos?ano=` devolvendo o total por categoria de um senador com dados reais do Senado, rodando em qualquer máquina pelos comandos do `README.md` (`v0.1.0`). |
 | 13/11 (Marco 2) | Perfil do senador, consulta por estado e por categoria e comparação com a cota; portal web onde alguém de fora consulta o próprio senador sem ajuda (`v0.2.0`). |
-| 27/11 (Marco 3) | Documentação completa da API em `/docs`, README atualizado, teste com pelo menos duas pessoas de fora registrado em `evidencias/` (`v1.0.0`). |
+| 27/11 (Marco 3) | API publicada em endereço público, documentação completa da API em `/docs`, README atualizado, teste com pelo menos duas pessoas de fora registrado em `evidencias/` (`v1.0.0`). |
 | 04/12 (Socialização) | Demonstração ao vivo consultando o senador de alguém da plateia, com plano B gravado. |
 
 **Dependências externas.**
