@@ -73,6 +73,39 @@ de um senador por ano; publicar a API (Marco 1, 02/10) e preparar a primeira con
 
 ---
 
+### Semana de 02/10
+
+**Quem trabalhou e quanto:** Alisson — 6h30 (1h30 em 29/09, 2h em 01/10, 3h em 02/10)
+
+**O que foi feito:**
+- 29/09: schema do banco implementado no Prisma (senadores, categorias, despesas, sincronizações e
+  remunerações), migration inicial e cliente do banco com o adapter do Postgres. Entrou na `main`
+  pelo PR #14 (issue #4).
+- 29/09: VS Code configurado (autosave, Prettier, formatador do Prisma) e `.prettierrc` no projeto.
+- 01/10: segunda migration (tipo do documento da despesa) e início do sync: busca e validação das
+  despesas da CEAPS com Zod, descartando o campo `detalhamento` (dado pessoal de assessores).
+- 02/10: sync gravando senadores, categorias e despesas numa transação: 14.563 despesas de 89
+  senadores, com soma (R$ 23.191.729,08) idêntica à da fonte.
+- 02/10: rota `GET /senadores/{codigo}/gastos?ano=`; o total do senador 5926 (R$ 362.234,49) confere
+  com o resumo oficial do Senado. Testes de integração com banco de teste separado (5 testes).
+- 02/10: README com o passo a passo para rodar localmente, ficha do Marco 1 e plano ajustado.
+
+**Obstáculo:**
+- 28/09 sem avanço no projeto; o atraso foi compensado em 29/09 e 01/10.
+- O banco respondia "Authentication failed" porque outro container Postgres, de outro projeto,
+  ocupava a porta 5432. Resolvido parando o outro container (~20 min).
+- A publicação na internet saiu do Marco 1 por orientação do professor e passou para o Marco 3;
+  plano e ficha do marco ajustados.
+
+**Contato com o público:** nenhum ainda. Primeira conversa marcada para 08/10.
+
+**Evidência coletada:** nenhuma.
+
+**Próxima semana:** sync dos senadores pela API legislativa (partido, UF, quem está em exercício),
+primeira conversa com o público em 08/10 e as rotas que o portal vai usar (Marco 2).
+
+---
+
 ### Semana de DD/MM
 
 **Quem trabalhou e quanto:**
