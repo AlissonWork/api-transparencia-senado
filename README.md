@@ -147,6 +147,12 @@ ser conferido no resumo oficial do Senado:
 <https://adm.senado.gov.br/adm-dadosabertos/api/v1/senadores/5926/recursos-utilizados>.
 No PowerShell, use `curl.exe` em vez de `curl`, ou abra os endereços no navegador.
 
+Para ver os códigos de senador disponíveis no banco:
+
+```bash
+docker compose exec db psql -U senado -d transparencia -c "select codigo, nome from senadores order by nome"
+```
+
 ### 5. Rodar os testes
 
 Os testes usam um banco separado, `transparencia_teste`, para não apagar os dados do sync. Na primeira
