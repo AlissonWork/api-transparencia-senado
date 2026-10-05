@@ -72,18 +72,18 @@ rota de gastos com os senadores do Ceará; o convite e o retorno serão registra
 | :-- | :-- | :-- | :-- |
 | D1 Qualidade técnica | | 2 | A rota responde com dados reais e o total confere com o resumo oficial do Senado; validação de entrada, erros 400/404 e 5 testes automatizados. |
 | D2 Alcance e adequação ao público | n.a. | — | Produto ainda não publicado; primeira conversa com o público marcada para 08/10. |
-| D3 Documentação e reprodutibilidade | | 1 | README, plano e estrutura do banco documentados, mas o passo a passo de execução ainda não foi testado numa máquina limpa. |
+| D3 Documentação e reprodutibilidade | | 2 | O passo a passo do README foi seguido do zero num clone novo do repositório em 04/10: instalação, banco, sync, rota e os 5 testes funcionaram. |
 | D4 Registro do processo | | 2 | Diário semanal, issues, PRs com descrição e commits padronizados registram cada decisão e obstáculo. |
 | D5 Autoavaliação e reflexão | n.a. | — | Prevista para 04/12. |
 
-Nota calculada: `10 × 5 / 6 = 8,3`.
+Nota calculada: `10 × 6 / 6 = 10`.
 
 ## Antes de entregar
 
-- [ ] O endereço do produto abre numa máquina que não é a nossa. (n.a. no Marco 1; o equivalente é o
-      `README.md` funcionar num clone limpo.)
-- [ ] O que o Campo 1 promete foi testado hoje, não na semana passada.
-- [ ] O `README.md` corresponde ao que o produto faz agora.
-- [ ] O diário tem entrada de todas as semanas desde o último marco.
+- [x] O endereço do produto abre numa máquina que não é a nossa. (n.a. no Marco 1; o equivalente, o
+      `README.md` funcionar num clone limpo, foi testado em 04/10.)
+- [x] O que o Campo 1 promete foi testado hoje, não na semana passada. (04/10)
+- [x] O `README.md` corresponde ao que o produto faz agora.
+- [x] O diário tem entrada de todas as semanas desde o último marco.
 - [x] Toda evidência do Campo 3 tem data e está em `evidencias/`. (Nenhuma evidência ainda.)
-- [ ] O commit informado está publicado.
+- [x] O commit informado está publicado. (tag `v0.1.0`)

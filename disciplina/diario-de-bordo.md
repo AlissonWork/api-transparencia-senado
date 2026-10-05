@@ -89,6 +89,8 @@ de um senador por ano; publicar a API (Marco 1, 02/10) e preparar a primeira con
 - 02/10: rota `GET /senadores/{codigo}/gastos?ano=`; o total do senador 5926 (R$ 362.234,49) confere
   com o resumo oficial do Senado. Testes de integração com banco de teste separado (5 testes).
 - 02/10: README com o passo a passo para rodar localmente, ficha do Marco 1 e plano ajustado.
+- 04/10: README seguido do zero num clone novo do repositório: instalação, banco, sync (14.563
+  despesas), rota de gastos e os 5 testes funcionaram. Entrega do Marco 1 marcada com a tag `v0.1.0`.
 
 **Obstáculo:**
 - 28/09 sem avanço no projeto; o atraso foi compensado em 29/09 e 01/10.
