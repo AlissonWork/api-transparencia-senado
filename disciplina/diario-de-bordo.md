@@ -94,6 +94,9 @@ de um senador por ano; publicar a API (Marco 1, 02/10) e preparar a primeira con
 - 28/09 sem avanço no projeto; o atraso foi compensado em 29/09 e 01/10.
 - O banco respondia "Authentication failed" porque outro container Postgres, de outro projeto,
   ocupava a porta 5432. Resolvido parando o outro container (~20 min).
+- Um colega seguiu o README num clone limpo, em outra máquina, e o `corepack enable pnpm` falhou com
+  "operação não permitida" (Node em pasta protegida do Windows). README corrigido com a causa e duas
+  saídas: terminal como administrador ou `npm install -g pnpm@12.6.0`.
 - A publicação na internet saiu do Marco 1 por orientação do professor e passou para o Marco 3;
   plano e ficha do marco ajustados.
 
