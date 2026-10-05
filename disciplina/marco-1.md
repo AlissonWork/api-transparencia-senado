@@ -14,7 +14,7 @@
 - **Endereço público do produto:** n.a. neste marco — a publicação na internet é exigência do Marco 3,
   conforme orientação do professor. O produto roda localmente seguindo o `README.md`.
   Repositório: https://github.com/AlissonWork/api-transparencia-senado
-- **Commit ou tag desta entrega:** `<PREENCHER: hash do commit na main depois do merge>`
+- **Commit ou tag desta entrega:** tag `v0.1.0`
 
 ## Campo 1 — O que funciona hoje
 
@@ -59,6 +59,10 @@ rota de gastos com os senadores do Ceará; o convite e o retorno serão registra
   outro container Postgres, de outro projeto, ocupava a porta 5432. Resolvido parando o outro container;
   se voltar a acontecer, o banco deste projeto passa para outra porta.
 - **Dia sem avanço (28/09).** O cronograma interno atrasou um dia; compensado em 29/09 e 01/10.
+- **Erro de permissão do corepack (02/10).** Um colega seguiu o `README.md` num clone limpo, em outra
+  máquina, e o `corepack enable pnpm` falhou com "operação não permitida" (Node instalado em pasta
+  protegida do Windows). O `README.md` passou a explicar a causa e duas saídas: rodar o comando como
+  administrador ou instalar o pnpm com `npm install -g pnpm@12.6.0`.
 - **Escopo ampliado no Marco 2.** A remuneração dos senadores (folha de pagamento do Senado) entrou
   no planejamento do Marco 2; a tabela já existe no banco, vazia.
 
