@@ -1,6 +1,7 @@
 import { existsSync } from 'node:fs'
 import { criarPrisma } from '@ts/db'
 import { buscarDespesas, type DespesaSenado } from './senado.js'
+import { mascararDocumento } from './mascarar.js'
 
 // Carrega o .env da raiz (DATABASE_URL), igual ao prisma.config.ts
 const env = new URL('../../../.env', import.meta.url)
@@ -71,7 +72,7 @@ async function gravarDespesas(
     mes: d.mes,
     tipoDocumento: d.tipoDocumento,
     fornecedor: d.fornecedor,
-    cpfCnpj: d.cpfCnpj,
+    cpfCnpj: mascararDocumento(d.cpfCnpj),
     documento: d.documento,
     data: lerData(d.data),
     valor: d.valorReembolsado.toFixed(2), // texto "1850.40": Decimal sem erro de arredondamento
