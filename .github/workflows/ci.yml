@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+
+    # Postgres só para os testes; some quando o job termina
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: senado
+          POSTGRES_PASSWORD: senado
+          POSTGRES_DB: transparencia_teste
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U senado"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+
+    env:
+      DATABASE_URL: postgresql://senado:senado@localhost:5432/transparencia_teste
+      DIRECT_URL: postgresql://senado:senado@localhost:5432/transparencia_teste
+
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4 # lê a versão do "packageManager"
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile # falha se o lockfile estiver desatualizado
+      - run: pnpm --filter @ts/db exec prisma migrate deploy
+      - run: pnpm build # checa os tipos (tsc)
+      - run: pnpm test
