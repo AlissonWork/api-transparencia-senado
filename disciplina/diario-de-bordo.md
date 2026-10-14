@@ -111,6 +111,60 @@ primeira conversa com o público em 08/10 e as rotas que o portal vai usar (Marc
 
 ---
 
+### Semana de 09/10
+
+**Quem trabalhou e quanto:** Alisson — 3h (2h em 07/10, 1h em 08/10)
+
+**O que foi feito:**
+- 07/10: issues do Marco 2 organizadas no milestone "Marco 2" (13/11): máscara de CPF (#5), CI (#7),
+  sync dos senadores (#17), rotas de lista e perfil (#18), portal React (#19), uso pelo público (#20)
+  e LICENSE (#21).
+- 07/10: máscara de CPF no sync, antes de gravar no banco (LGPD): CPF vira `***.456.789-**` e CNPJ
+  só tem a pontuação padronizada. Função pura com 5 testes Vitest, os primeiros do pacote `sync`.
+  Entrou na `main` pelo PR #23 (fecha #5).
+- 07/10: conferência no banco depois do sync: nenhum CPF de fornecedor nos dados de 2026 e 3
+  despesas com documento de 13 dígitos (provável CNPJ digitado sem um zero na origem), mantidas como
+  vieram.
+- 07/10: licença MIT adicionada ao repositório (PR #24, fecha #21).
+- 08/10: workflow de CI no GitHub Actions (instalação limpa, Postgres temporário, migrations, build
+  e testes) na branch `chore/ci-github-actions`.
+- 08/10: email ao vizinho com os Campos 1 e 3 do plano de ação e três perguntas (prova dos nove).
+
+**Obstáculo:**
+- O teste do valor vazio pegou um erro na primeira versão da máscara: tudo que não tinha 11 dígitos
+  era formatado como CNPJ, e o vazio virava `../-`. Resolvido tratando só os formatos conhecidos
+  (11 e 14 dígitos) e devolvendo o resto sem alteração (~15 min).
+- A primeira conversa, planejada para ser pessoalmente, foi feita por email.
+
+**Contato com o público:** email enviado ao vizinho em 08/10, sem resposta até o fim da semana.
+
+**Evidência coletada:** registro do envio em `disciplina/evidencias.csv`.
+
+**Próxima semana:** abrir o PR da CI, cobrar a resposta do email e começar o sync dos senadores pela
+API legislativa (#17).
+
+---
+
+### Semana de 16/10
+
+**Quem trabalhou e quanto:** Alisson — 30min (30min em 13/10)
+
+**O que foi feito:**
+- 13/10: PR #25 aberto com a CI (fecha #7); primeira execução do workflow no GitHub Actions.
+- 13/10: conversa pessoal com o vizinho para pedir a resposta do email de 08/10.
+
+**Obstáculo:** o email de 08/10 ficou sem resposta; a conversa pessoal foi a forma de retomar o
+contato.
+
+**Contato com o público:** conversa pessoal com o vizinho em 13/10; aguardando a resposta do email.
+
+**Evidência coletada:** registro da conversa em `disciplina/evidencias.csv`.
+
+**Próxima semana:** registrar a resposta do vizinho e o resultado da prova dos nove; sync dos
+senadores pela API legislativa (#17).
+
+---
+
 ### Semana de DD/MM
 
 **Quem trabalhou e quanto:**
