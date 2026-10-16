@@ -1,4 +1,4 @@
-// Esconde parte do CPF (LGPD). CNPJ é de empresa e fica como está.
+// Esconde parte do CPF (LGPD) e formata o CNPJ com pontuação, sem mascarar (dado de empresa é público).
 // "123.456.789-00" → "***.456.789-**"
 export function mascararDocumento(documento: string) {
   const digitos = documento.replace(/\D/g, '') // \D = tudo que não é dígito
