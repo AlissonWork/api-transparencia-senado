@@ -1,6 +1,10 @@
 import { existsSync } from 'node:fs'
 import { criarPrisma } from '@ts/db'
-import { buscarDespesas, type DespesaSenado } from './senado.js'
+import {
+  buscarDespesas,
+  buscarSenadoresEmExercicio,
+  type DespesaSenado,
+} from './senado.js'
 import { mascararDocumento } from './mascarar.js'
 
 // Carrega o .env da raiz (DATABASE_URL), igual ao prisma.config.ts
@@ -40,6 +44,27 @@ async function gravarSenadores(despesas: DespesaSenado[]) {
     })
   }
   return nomes.size
+}
+
+// 1b. SENADORES EM EXERCÍCIO: completa partido, UF e foto pela API legislativa
+async function gravarSenadoresEmExercicio() {
+  const senadores = await buscarSenadoresEmExercicio()
+  await prisma.$transaction(
+    async (tx) => {
+      // Todo mundo vira "fora do cargo"; logo abaixo, os 81 atuais voltam a true.
+      // Assim, quem saiu do Senado fica com false sem precisarmos saber quem foi.
+      await tx.senador.updateMany({ data: { emExercicio: false } })
+      for (const s of senadores) {
+        await tx.senador.upsert({
+          where: { codigo: s.codigo },
+          update: { ...s, emExercicio: true },
+          create: { ...s, emExercicio: true },
+        })
+      }
+    },
+    { timeout: 30_000 },
+  )
+  return senadores.length
 }
 
 // 2. CATEGORIAS: acha ou cria cada uma e devolve o mapa "nome oficial → id"
@@ -91,7 +116,7 @@ async function gravarDespesas(
   return linhas.length
 }
 
-// Execução: registra o início, faz as 3 etapas e registra o fim (ok ou erro)
+// Execução: registra o início, faz as etapas e registra o fim (ok ou erro)
 const execucao = await prisma.sincronizacao.create({
   data: { fonte: 'despesas', ano: ANO, status: 'executando' },
 })
@@ -99,6 +124,8 @@ const execucao = await prisma.sincronizacao.create({
 try {
   const despesas = await buscarDespesas(ANO)
   const totalSenadores = await gravarSenadores(despesas)
+  const emExercicio = await gravarSenadoresEmExercicio()
+  console.log(`${emExercicio} senadores em exercício atualizados`)
   const categorias = await gravarCategorias(despesas)
   const total = await gravarDespesas(despesas, categorias)
 
