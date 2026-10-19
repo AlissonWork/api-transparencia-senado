@@ -1,5 +1,6 @@
 import Fastify from 'fastify'
 import { rotasDespesas } from './routes/despesas.js'
+import { rotasSenadores } from './routes/senadores.js'
 
 export function buildApp() {
   const app = Fastify({ logger: true })
@@ -9,6 +10,7 @@ export function buildApp() {
   })
 
   app.register(rotasDespesas)
+  app.register(rotasSenadores)
 
   return app
 }
