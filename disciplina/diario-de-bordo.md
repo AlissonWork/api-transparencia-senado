@@ -25,6 +25,7 @@ Copie este arquivo para o repositório da equipe e mantenha-o lá. É o registro
 **Quem trabalhou e quanto:** Alisson — 1:30h
 
 **O que foi feito:**
+
 - Leitura das diretrizes da disciplina e organização da estrutura inicial do repositório.
 - Escolha da Trilha A e definição do problema focado na transparência dos gastos do Senado Federal para o cidadão comum.
 
@@ -43,6 +44,7 @@ Copie este arquivo para o repositório da equipe e mantenha-o lá. É o registro
 **Quem trabalhou e quanto:** Alisson — 6h (3h em 25/09, 3h em 27/09)
 
 **O que foi feito:**
+
 - 25/09: documentos da disciplina movidos para `disciplina/` e README do projeto criado na raiz.
 - 25/09: plano de ação preenchido: problema, público, fontes (CEAPS em domínio público, base
   atualizada em 23/09/2026), cronograma e indicadores.
@@ -57,6 +59,7 @@ Copie este arquivo para o repositório da equipe e mantenha-o lá. É o registro
   Marco 2.
 
 **Obstáculo:**
+
 - A primeira escolha de público ("cidadãos") era genérica demais. Resolvido trocando por um grupo
   concreto do convívio direto, mais fácil de alcançar.
 - A versão "latest" do Prisma era uma release candidate (8.0.0-rc) que trazia 319 pacotes
@@ -78,6 +81,7 @@ de um senador por ano; publicar a API (Marco 1, 02/10) e preparar a primeira con
 **Quem trabalhou e quanto:** Alisson — 6h30 (1h30 em 29/09, 2h em 01/10, 3h em 02/10)
 
 **O que foi feito:**
+
 - 29/09: schema do banco implementado no Prisma (senadores, categorias, despesas, sincronizações e
   remunerações), migration inicial e cliente do banco com o adapter do Postgres. Entrou na `main`
   pelo PR #14 (issue #4).
@@ -93,6 +97,7 @@ de um senador por ano; publicar a API (Marco 1, 02/10) e preparar a primeira con
   despesas), rota de gastos e os 5 testes funcionaram. Entrega do Marco 1 marcada com a tag `v0.1.0`.
 
 **Obstáculo:**
+
 - 28/09 sem avanço no projeto; o atraso foi compensado em 29/09 e 01/10.
 - O banco respondia "Authentication failed" porque outro container Postgres, de outro projeto,
   ocupava a porta 5432. Resolvido parando o outro container (~20 min).
@@ -116,6 +121,7 @@ primeira conversa com o público em 08/10 e as rotas que o portal vai usar (Marc
 **Quem trabalhou e quanto:** Alisson — 3h (2h em 07/10, 1h em 08/10)
 
 **O que foi feito:**
+
 - 07/10: issues do Marco 2 organizadas no milestone "Marco 2" (13/11): máscara de CPF (#5), CI (#7),
   sync dos senadores (#17), rotas de lista e perfil (#18), portal React (#19), uso pelo público (#20)
   e LICENSE (#21).
@@ -131,6 +137,7 @@ primeira conversa com o público em 08/10 e as rotas que o portal vai usar (Marc
 - 08/10: email ao vizinho com os Campos 1 e 3 do plano de ação e três perguntas (prova dos nove).
 
 **Obstáculo:**
+
 - O teste do valor vazio pegou um erro na primeira versão da máscara: tudo que não tinha 11 dígitos
   era formatado como CNPJ, e o vazio virava `../-`. Resolvido tratando só os formatos conhecidos
   (11 e 14 dígitos) e devolvendo o resto sem alteração (~15 min).
@@ -147,21 +154,64 @@ API legislativa (#17).
 
 ### Semana de 16/10
 
-**Quem trabalhou e quanto:** Alisson — 30min (30min em 13/10)
+**Quem trabalhou e quanto:** Alisson — 2h30 (30min em 13/10; 2h em 15/10 e 16/10)
 
 **O que foi feito:**
+
 - 13/10: PR #25 aberto com a CI (fecha #7); primeira execução do workflow no GitHub Actions.
 - 13/10: conversa pessoal com o vizinho para pedir a resposta do email de 08/10.
+- 15/10 e 16/10: sync dos senadores pela API legislativa (fecha #17): nome completo, partido, UF,
+  foto (em https) e quem está em exercício, validados com Zod. A API legislativa tem 81 senadores
+  em exercício e a CEAPS de 2026 tem 89: os 8 a mais exerceram o mandato em parte do ano (por
+  exemplo, suplentes) e ficam com `em_exercicio = false`.
 
-**Obstáculo:** o email de 08/10 ficou sem resposta; a conversa pessoal foi a forma de retomar o
-contato.
+**Obstáculo:** o email de 08/10 ficou sem resposta até 13/10; a conversa pessoal foi a forma de
+retomar o contato, e a resposta chegou no dia seguinte.
 
-**Contato com o público:** conversa pessoal com o vizinho em 13/10; aguardando a resposta do email.
+**Contato com o público:** conversa pessoal com o vizinho em 13/10. Em 14/10 ele respondeu por email
+as três perguntas da prova dos nove:
 
-**Evidência coletada:** registro da conversa em `disciplina/evidencias.csv`.
+1. Que problema o projeto resolve: "Fica mais fácil de acompanhar os políticos em quem eu penso em
+   votar." Explicou com as próprias palavras e não apontou palavra difícil.
+2. O que perguntaria sobre os gastos: "Qual maior gasto deles."
+3. Se usaria: "Sim, para ficar melhor informado sobre esses assuntos."
 
-**Próxima semana:** registrar a resposta do vizinho e o resultado da prova dos nove; sync dos
-senadores pela API legislativa (#17).
+Resultado: ele entendeu os Campos 1 e 3 sem explicação oral, e o item da prova dos nove foi marcado
+no `plano-de-acao.md`. A pergunta dele ("qual o maior gasto") confirma o que o portal precisa
+mostrar primeiro: os gastos por categoria, do maior para o menor.
+
+**Evidência coletada:** print da resposta, sem nome e email, em
+`disciplina/evidencias/2026-10-14-resposta-vizinho.png`, e registro em `disciplina/evidencias.csv`.
+
+**Próxima semana:** rotas de lista e perfil de senadores (#18) e início do portal React (#19).
+
+---
+
+### Semana de 23/10
+
+**Quem trabalhou e quanto:** Alisson — 2h (2h em 19/10)
+
+**O que foi feito:**
+
+- 19/10: rota `GET /senadores?ano=` com o total gasto no ano por senador, do maior para o menor,
+  e filtros por UF, partido e em exercício. A lista mostra os 89 senadores da CEAPS, inclusive
+  quem saiu do cargo, porque esconder o gasto de quem saiu iria contra a transparência (#18).
+- 19/10: primeira camada de repository na API: as consultas ao banco saem da rota, que fica só com
+  validação e respostas HTTP.
+
+**Aprendizado:** a diferença entre uma API CRUD e uma API de consulta; por que somar no banco
+(`groupBy`) em vez de no JavaScript; o problema N+1 (uma consulta por senador); e por que a lista
+parte dos senadores e não das despesas: quem não gastou nada precisa aparecer com zero, e não sumir.
+
+**Obstáculo:** com dois arquivos de teste usando o mesmo banco, um apagaria os dados do outro se
+rodassem ao mesmo tempo. Resolvido rodando um arquivo de teste por vez (`fileParallelism: false`).
+
+**Contato com o público:** nenhum novo nesta semana.
+
+**Evidência coletada:** nenhuma nova.
+
+**Próxima semana:** portal React (#19) com a lista de senadores e a página de perfil; mostrar ao
+vizinho e ao cliente (#20).
 
 ---
 
@@ -169,8 +219,7 @@ senadores pela API legislativa (#17).
 
 **Quem trabalhou e quanto:**
 
-**O que foi feito:**
--
+## **O que foi feito:**
 
 **Obstáculo:**
 
@@ -189,6 +238,7 @@ senadores pela API legislativa (#17).
 **Quem trabalhou e quanto:** Ana — 3h; Bruno — 2h; Carla — 2h30
 
 **O que foi feito:**
+
 - Baixamos o censo escolar de 2024 e contamos vazios nas colunas de infraestrutura (Ana).
 - Primeira rota da API respondendo com dados fixos (Bruno).
 - Escrevemos o e-mail para a coordenadora da escola do bairro (Carla).
@@ -206,12 +256,12 @@ descobrir. Resolvido.
 
 ## O que conta como evidência
 
-| Serve | Não serve |
-| :-- | :-- |
-| Mensagem de alguém de fora que usou | Captura de tela rodando na sua máquina |
-| Registro de acessos ao endereço público | "Divulgamos nas redes", sem número |
-| Lista de presença ou inscrição em oficina | Retorno de colega da própria turma |
-| Retorno escrito, mesmo curto | Número coletado uma vez, no dia da apresentação |
+| Serve                                     | Não serve                                       |
+| :---------------------------------------- | :---------------------------------------------- |
+| Mensagem de alguém de fora que usou       | Captura de tela rodando na sua máquina          |
+| Registro de acessos ao endereço público   | "Divulgamos nas redes", sem número              |
+| Lista de presença ou inscrição em oficina | Retorno de colega da própria turma              |
+| Retorno escrito, mesmo curto              | Número coletado uma vez, no dia da apresentação |
 
 Guarde as evidências numa pasta do repositório, com data no nome do arquivo. Evidência é subproduto
 de rotina, não tarefa da última semana.

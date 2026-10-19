@@ -111,7 +111,8 @@ Projeto individual: todos os papéis ficam com o mesmo integrante, com dedicaç�
   histórica e aplicativo ficaram de fora).
 - [x] O que sobrou ainda ajuda alguém: saber em que o próprio senador gastou já responde à
   pergunta do Campo 1.
-- [ ] Uma pessoa de fora entende o Campo 1 e o Campo 3 sem explicação oral.
+- [x] Uma pessoa de fora entende o Campo 1 e o Campo 3 sem explicação oral (vizinho do bairro,
+  resposta por email em 14/10, registrada em `evidencias.csv`).
 - [x] A data da primeira conversa com o público está marcada (08/10).
 - [x] Os indicadores podem ser coletados sem depender de terceiro (registro do próprio servidor
   e mensagens recebidas diretamente).
