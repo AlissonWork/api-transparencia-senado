@@ -23,6 +23,11 @@ const listaQuerySchema = z.object({
     .optional(),
 })
 
+// O :codigo da URL (/senadores/5672). Também chega como texto.
+const perfilParamsSchema = z.object({
+  codigo: z.coerce.number().int().positive(),
+})
+
 export async function rotasSenadores(app: FastifyInstance) {
   const prisma = criarPrisma()
   app.addHook('onClose', () => prisma.$disconnect())
@@ -46,5 +51,35 @@ export async function rotasSenadores(app: FastifyInstance) {
 
     // 3. Monta a resposta
     return { ano: query.data.ano, quantidade: senadores.length, senadores }
+  })
+
+  app.get('/senadores/:codigo', async (request, reply) => {
+    // 1. Valida o parâmetro de rota (o :codigo vem em request.params)
+    const params = perfilParamsSchema.safeParse(request.params)
+    if (!params.success) {
+      return reply.status(400).send({
+        error: {
+          code: 'PARAMETROS_INVALIDOS',
+          message: 'Use /senadores/{codigo}, com o código numérico do senador',
+        },
+      })
+    }
+
+    const { codigo } = params.data
+
+    // 2. Pede o perfil ao repository
+    const perfil = await repositorio.buscarPerfil(codigo)
+
+    // 3. null do repository vira 404 aqui, na camada que sabe de HTTP
+    if (!perfil) {
+      return reply.status(404).send({
+        error: {
+          code: 'SENADOR_NAO_ENCONTRADO',
+          message: `Senador ${codigo} não encontrado`,
+        },
+      })
+    }
+
+    return perfil
   })
 }

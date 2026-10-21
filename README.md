@@ -4,9 +4,9 @@ API pública e portal web que transformam os dados abertos do Senado Federal em 
 **quanto cada senador gastou da cota parlamentar, em quê, e como isso se compara com a cota
 disponível e com os colegas do mesmo estado.**
 
-> **Status:** em desenvolvimento. Já funciona localmente: o sync traz as despesas reais do Senado
-> e a rota `GET /senadores/{codigo}/gastos?ano=` devolve o total por categoria. Ainda não há
-> endereço público (previsto para 27/11/2026).
+> **Status:** em desenvolvimento. Já funciona localmente: o sync traz as despesas e os senadores
+> do Senado, e a API lista os senadores com o total gasto no ano, mostra o perfil de cada um e os
+> gastos por categoria. Ainda não há endereço público (previsto para 27/11/2026).
 
 ---
 
@@ -136,6 +136,7 @@ pnpm --filter @ts/sync sync
 Saída esperada (os números crescem conforme o Senado lança novas despesas):
 
 ```
+81 senadores em exercício atualizados
 14563 despesas, 89 senadores e 8 categorias gravados
 ```
 
@@ -149,11 +150,20 @@ Com a API no ar (`Server listening at http://127.0.0.1:3333`), em outro terminal
 
 ```bash
 curl "http://localhost:3333/health"
+curl "http://localhost:3333/senadores?ano=2026"
+curl "http://localhost:3333/senadores?ano=2026&uf=CE&emExercicio=true"
+curl "http://localhost:3333/senadores/5926"
 curl "http://localhost:3333/senadores/5926/gastos?ano=2026"
 ```
 
-A segunda chamada devolve o total gasto pelo senador em 2026 e a divisão por categoria. O total pode
-ser conferido no resumo oficial do Senado:
+| Rota | O que devolve |
+| :-- | :-- |
+| `GET /senadores?ano=` | todos os senadores com o total gasto no ano, do maior para o menor. Filtros opcionais: `uf`, `partido`, `emExercicio=true\|false` |
+| `GET /senadores/{codigo}` | perfil: nome completo, partido, UF, foto, se está em exercício e os anos com despesa |
+| `GET /senadores/{codigo}/gastos?ano=` | total gasto no ano e a divisão por categoria |
+
+A lista inclui quem exerceu o mandato em parte do ano (por exemplo, suplentes), com
+`emExercicio: false`. O total de um senador pode ser conferido no resumo oficial do Senado:
 <https://adm.senado.gov.br/adm-dadosabertos/api/v1/senadores/5926/recursos-utilizados>.
 No PowerShell, use `curl.exe` em vez de `curl`, ou abra os endereços no navegador.
 

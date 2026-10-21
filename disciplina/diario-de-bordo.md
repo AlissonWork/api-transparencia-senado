@@ -189,7 +189,7 @@ mostrar primeiro: os gastos por categoria, do maior para o menor.
 
 ### Semana de 23/10
 
-**Quem trabalhou e quanto:** Alisson — 2h (2h em 19/10)
+**Quem trabalhou e quanto:** Alisson — 3h (2h em 19/10; 1h em 21/10)
 
 **O que foi feito:**
 
@@ -198,6 +198,8 @@ mostrar primeiro: os gastos por categoria, do maior para o menor.
   quem saiu do cargo, porque esconder o gasto de quem saiu iria contra a transparência (#18).
 - 19/10: primeira camada de repository na API: as consultas ao banco saem da rota, que fica só com
   validação e respostas HTTP.
+- 21/10: rota `GET /senadores/{codigo}` com o perfil do senador e os anos em que ele tem despesa,
+  para o seletor de ano do portal; README atualizado com as rotas novas (#18).
 
 **Aprendizado:** a diferença entre uma API CRUD e uma API de consulta; por que somar no banco
 (`groupBy`) em vez de no JavaScript; o problema N+1 (uma consulta por senador); e por que a lista
@@ -205,6 +207,9 @@ parte dos senadores e não das despesas: quem não gastou nada precisa aparecer 
 
 **Obstáculo:** com dois arquivos de teste usando o mesmo banco, um apagaria os dados do outro se
 rodassem ao mesmo tempo. Resolvido rodando um arquivo de teste por vez (`fileParallelism: false`).
+Na rota de perfil, a validação lia `request.query` em vez de `request.params`, e todas as
+chamadas davam 400; os testes de sucesso pegaram o erro, e o teste do código inválido passava
+por acaso (falso positivo).
 
 **Contato com o público:** nenhum novo nesta semana.
 
