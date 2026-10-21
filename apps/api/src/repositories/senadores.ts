@@ -46,5 +46,34 @@ export function criarRepositorioSenadores(prisma: PrismaClient) {
         .map((s) => ({ ...s, total: totalPorCodigo.get(s.codigo) ?? 0 }))
         .sort((a, b) => b.total - a.total) // maior gasto primeiro
     },
+
+    async buscarPerfil(codigo: number) {
+      // findUnique: busca pela chave primária. Devolve o registro ou null.
+      const senador = await prisma.senador.findUnique({
+        where: { codigo },
+        select: {
+          codigo: true,
+          nome: true,
+          nomeCompleto: true,
+          partido: true,
+          uf: true,
+          urlFoto: true,
+          emExercicio: true,
+        },
+      })
+      // Não achou: devolve null. Quem decide que isso vira 404 é a rota.
+      if (!senador) return null
+
+      // SELECT DISTINCT ano FROM despesas WHERE senador_codigo = $1 ORDER BY ano DESC
+      const anos = await prisma.despesa.findMany({
+        where: { senadorCodigo: codigo },
+        distinct: ['ano'],
+        select: { ano: true },
+        orderBy: { ano: 'desc' },
+      })
+
+      // [{ ano: 2026 }, { ano: 2025 }] vira [2026, 2025]
+      return { ...senador, anosComDespesa: anos.map((a) => a.ano) }
+    },
   }
 }

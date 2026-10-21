@@ -112,3 +112,38 @@ describe('GET /senadores', () => {
     expect(res.statusCode).toBe(400)
   })
 })
+
+describe('GET /senadores/:codigo', () => {
+  it('devolve o perfil com os anos que têm despesa, do mais recente', async () => {
+    const res = await app.inject({ method: 'GET', url: '/senadores/1' })
+
+    expect(res.statusCode).toBe(200)
+    expect(res.json()).toEqual({
+      codigo: 1,
+      nome: 'ANA',
+      nomeCompleto: null,
+      partido: 'PT',
+      uf: 'CE',
+      urlFoto: null,
+      emExercicio: true,
+      anosComDespesa: [2026, 2025],
+    })
+  })
+
+  it('devolve lista de anos vazia para quem não tem despesa', async () => {
+    const res = await app.inject({ method: 'GET', url: '/senadores/4' })
+    expect(res.statusCode).toBe(200)
+    expect(res.json().anosComDespesa).toEqual([])
+  })
+
+  it('responde 404 para senador que não existe', async () => {
+    const res = await app.inject({ method: 'GET', url: '/senadores/999' })
+    expect(res.statusCode).toBe(404)
+    expect(res.json().error.code).toBe('SENADOR_NAO_ENCONTRADO')
+  })
+
+  it('responde 400 para código inválido', async () => {
+    const res = await app.inject({ method: 'GET', url: '/senadores/abc' })
+    expect(res.statusCode).toBe(400)
+  })
+})
