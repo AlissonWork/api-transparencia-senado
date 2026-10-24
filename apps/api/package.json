@@ -10,6 +10,7 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@fastify/cors": "^11.3.1",
     "@ts/db": "workspace:*",
     "fastify": "^5.12.5",
     "zod": "^4.6.5"
