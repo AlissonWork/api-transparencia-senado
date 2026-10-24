@@ -1,0 +1,28 @@
+@import 'tailwindcss';
+
+/* As cores e fontes do portal. Cada --color-X vira classes do Tailwind:
+   bg-pri, text-pri, border-pri, bg-faixa, text-suave... */
+@theme {
+  --color-pri: #0f5e5a; /* verde-petróleo: menu, títulos, links */
+  --color-pri-escura: #0a3f3c; /* rodapé, hover do menu */
+  --color-pri-clara: #e4f1ef; /* fundo de cabeçalho de tabela */
+  --color-dest: #d6453d; /* destaque: o "maior gasto" */
+  --color-dest-clara: #fdeeed;
+  --color-faixa: #f3f5f4; /* fundos de faixa e linhas alternadas */
+  --color-linha: #d3dad7; /* bordas */
+  --color-texto: #1c2321;
+  --color-suave: #55605c; /* texto secundário */
+
+  --font-sans: 'Atkinson Hyperlegible', 'Segoe UI', Arial, sans-serif;
+  --font-mono: 'Roboto Mono', ui-monospace, monospace;
+}
+
+/* Tamanho base da letra. Os botões A- e A+ mudam este valor,
+   e tudo que usa rem (o Tailwind inteiro) acompanha. */
+html {
+  font-size: 106.25%; /* 17px */
+}
+
+body {
+  @apply bg-white text-texto font-sans;
+}
