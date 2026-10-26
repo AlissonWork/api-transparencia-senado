@@ -12,6 +12,8 @@
   --color-linha: #d3dad7; /* bordas */
   --color-texto: #1c2321;
   --color-suave: #55605c; /* texto secundário */
+  --color-ok: #1d6b3f; /* selo "No cargo hoje" */
+  --color-ok-clara: #e6f3eb;
 
   --font-sans: 'Atkinson Hyperlegible', 'Segoe UI', Arial, sans-serif;
   --font-mono: 'Roboto Mono', ui-monospace, monospace;
