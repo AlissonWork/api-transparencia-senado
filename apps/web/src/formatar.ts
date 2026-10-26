@@ -16,3 +16,13 @@ export function semAcento(texto: string) {
     .replace(/\p{Diacritic}/gu, '')
     .toLowerCase()
 }
+
+// 0.38 vira "38%"
+const porcentagem = new Intl.NumberFormat('pt-BR', {
+  style: 'percent',
+  maximumFractionDigits: 0,
+})
+
+export function formatarPorcentagem(parte: number) {
+  return porcentagem.format(parte)
+}
