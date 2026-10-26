@@ -27,8 +27,9 @@ senadores, filtrar pelo nome e somar por conta própria, e por isso desiste.
   2 pessoas já identificadas; a meta é chegar a cerca de 5 por indicação delas até 27/11.
 - **Duas ou três pessoas reais desse grupo:** um vizinho do bairro e um cliente para quem o autor presta
   serviço. Os nomes são informados ao professor fora do repositório.
-- **Já falamos com alguma? Quando falaremos?** Ainda não. Primeira conversa marcada para 08/10 (prazo 09/10), pessoalmente, mostrando a primeira rota da API e perguntando que
-  pergunta a pessoa faria sobre os senadores do Ceará.
+- **Já falamos com alguma? Quando falaremos?** Sim, com o vizinho do bairro: email em 08/10,
+  conversa pessoal em 13/10 e resposta por email em 14/10 (registros em `evidencias.csv`). Próxima
+  etapa: mostrar o portal pessoalmente ao vizinho e ao cliente antes do Marco 2 (13/11).
 - **Como essa pessoa vai descobrir que o produto existe:** apresentação em pessoa, no bairro e
   durante o atendimento aos clientes, e o link enviado por WhatsApp para quem pedir e publicado no LinkedIn; cada pessoa que usar é
   convidada a repassar para mais uma.

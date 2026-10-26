@@ -220,11 +220,52 @@ vizinho e ao cliente (#20).
 
 ---
 
+### Semana de 30/10
+
+**Quem trabalhou e quanto:** Alisson — 5h até agora (2h30 em 24/10; 2h30 em 26/10)
+
+**O que foi feito:**
+
+- 23/10: design do portal escolhido a partir de rascunhos: visual de portal público, cantos retos,
+  cores claras, fonte legível (Atkinson Hyperlegible), barra de acessibilidade, tabela no computador
+  e cards no celular. Nome "De Olho na Cota" e paleta verde-petróleo ainda provisórios.
+- 24/10: esqueleto do portal em `apps/web` (Vite, React, Tailwind e React Router) com o layout
+  comum, a página "Sobre os dados" e a página de "não encontrada"; `pnpm dev` passou a subir a API
+  e o portal juntos. A API passou a liberar o portal pelo CORS, com teste de que outro site não é
+  liberado (#19).
+- 26/10: página inicial com a lista de senadores do ano, do maior para o menor gasto, faixa de
+  resumo, busca por nome e filtros por estado, partido e "só quem está no cargo". Os filtros ficam
+  no endereço (`/?uf=CE`), então o link pode ser enviado já filtrado (#19).
+- 26/10: página do perfil do senador com o seletor de ano, o total gasto, a posição entre os
+  senadores, a frase com o maior gasto, os gastos por categoria (gráfico de 10 quadradinhos), os
+  colegas do mesmo estado e o link para conferir no site do Senado (#19).
+
+**Aprendizado:** o que é CORS e por que o navegador bloqueia uma página de ler outra origem; por
+que o estado do React muda com `setNivel` e não com uma variável comum; `useEffect` com limpeza;
+união discriminada para os estados carregando, erro e pronto; filtros guardados no endereço com
+`useSearchParams`; `Promise.all` para fazer duas buscas ao mesmo tempo; e o `key` para o React
+recriar um componente ao trocar de senador.
+
+**Obstáculo:**
+
+- O teste "não libera um site qualquer" falhou: com a origem passada como texto, o `@fastify/cors`
+  manda o cabeçalho para qualquer site. Resolvido passando uma lista de origens (~15 min). O teste
+  do caso negativo foi o que pegou o erro.
+
+**Contato com o público:** nenhum novo nesta semana.
+
+**Evidência coletada:** nenhuma nova.
+
+**Próxima semana:** acabamento do portal (alto contraste, celular e build na CI) e mostrar o portal
+pessoalmente ao vizinho e ao cliente (#20), registrando o retorno no `evidencias.csv`.
+
+---
+
 ### Semana de DD/MM
 
 **Quem trabalhou e quanto:**
 
-## **O que foi feito:**
+**O que foi feito:**
 
 **Obstáculo:**
 
