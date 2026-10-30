@@ -6,6 +6,7 @@ import {
   type DespesaSenado,
 } from './senado.js'
 import { mascararDocumento } from './mascarar.js'
+import { SEM_CATEGORIA, gerarSlug, semearCategorias } from './categorias.js'
 
 // Carrega o .env da raiz (DATABASE_URL), igual ao prisma.config.ts
 const env = new URL('../../../.env', import.meta.url)
@@ -13,17 +14,6 @@ if (existsSync(env)) process.loadEnvFile(env)
 
 const prisma = criarPrisma()
 const ANO = 2026
-const SEM_CATEGORIA = 'Não Informado'
-
-// "Passagens aéreas, aquáticas..." → "passagens-aereas-aquaticas..."
-function gerarSlug(texto: string) {
-  return texto
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '') // tira acentos
-    .toLocaleLowerCase()
-    .replace(/[^a-z0-9]+/g, '-') // tudo que não é letra/número vira "-"
-    .replace(/^-|-$/g, '') // tira "-" das pontas
-}
 
 // A data da fonte tem valores absurdos: só aceitamos se o ano fizer sentido
 function lerData(texto: string | null) {
@@ -126,6 +116,7 @@ try {
   const totalSenadores = await gravarSenadores(despesas)
   const emExercicio = await gravarSenadoresEmExercicio()
   console.log(`${emExercicio} senadores em exercício atualizados`)
+  await semearCategorias(prisma)
   const categorias = await gravarCategorias(despesas)
   const total = await gravarDespesas(despesas, categorias)
 

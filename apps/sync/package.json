@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "sync": "tsx src/index.ts",
-    "test": "vitest run"
+    "test": "vitest run",
+    "semear": "tsx src/semear.ts"
   },
   "dependencies": {
     "@ts/db": "workspace:*",
