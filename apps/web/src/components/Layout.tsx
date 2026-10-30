@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink, Outlet } from 'react-router'
 import { NOME_PORTAL, SUBTITULO_PORTAL } from '../config'
+import { lerPreferencia, salvarPreferencia } from '../preferencias'
 
 // Tamanhos de letra permitidos pelos botões A- e A+ (em % do padrão do navegador)
 const TAMANHOS = [93.75, 106.25, 118.75, 131.25, 143.75] // 15, 17, 19, 21 e 23px
@@ -21,16 +22,21 @@ export function Layout() {
 }
 
 function BarraAcessibilidade() {
-  // Posição na lista TAMANHOS; começa no 1 (17px)
-  const [nivel, setNivel] = useState(1)
+  // Começa com o que a pessoa escolheu da última vez (ou 1 = 17px)
+  const [nivel, setNivel] = useState(() => {
+    const salvo = Number(lerPreferencia('tamanho-letra', '1'))
+    return Number.isInteger(salvo) && salvo >= 0 && salvo < TAMANHOS.length
+      ? salvo
+      : 1
+  })
 
-  // Toda vez que "nivel" mudar, aplica o tamanho na página inteira
   useEffect(() => {
     document.documentElement.style.fontSize = `${TAMANHOS[nivel]}%`
+    salvarPreferencia('tamanho-letra', String(nivel))
   }, [nivel])
 
   const botao =
-    'border border-linha bg-white px-2 py-0.5 font-bold text-pri hover:bg-pri-clara'
+    'border border-linha bg-white px-2 py-0.5 font-bold text-pri hover:bg-pri-clara disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white'
 
   return (
     <div className="border-b border-linha bg-faixa text-sm">

@@ -4,6 +4,7 @@ import { buscarSenadores, type SenadorDaLista } from '../api'
 import { ANO } from '../config'
 import { formatarReais, semAcento } from '../formatar'
 import { FotoSenador, SeloSituacao } from '../components/Senador'
+import { AvisoCarregando, AvisoErro } from '../components/Aviso'
 
 // A posição no ranking geral, calculada uma vez quando os dados chegam
 type SenadorComPosicao = SenadorDaLista & { posicao: number }
@@ -61,23 +62,10 @@ export function PaginaSenadores() {
       </div>
 
       {estado.tipo === 'carregando' && (
-        <p className="border border-linha bg-faixa p-4" role="status">
-          Carregando os senadores...
-        </p>
+        <AvisoCarregando texto="Carregando os senadores..." />
       )}
 
-      {estado.tipo === 'erro' && (
-        <div className="border border-dest bg-dest-clara p-4" role="alert">
-          <p className="font-bold">Não foi possível carregar os dados agora.</p>
-          <button
-            type="button"
-            onClick={tentarDeNovo}
-            className="mt-2 border border-pri bg-pri px-4 py-1.5 font-bold text-white hover:bg-pri-escura"
-          >
-            Tentar de novo
-          </button>
-        </div>
-      )}
+      {estado.tipo === 'erro' && <AvisoErro onTentarDeNovo={tentarDeNovo} />}
 
       {estado.tipo === 'pronto' && (
         <ListaSenadores senadores={estado.senadores} />
