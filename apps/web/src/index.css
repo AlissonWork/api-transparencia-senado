@@ -28,3 +28,9 @@ html {
 body {
   @apply bg-white text-texto font-sans;
 }
+
+/* Contorno bem visível em quem recebe o foco pelo teclado */
+:focus-visible {
+  outline: 3px solid var(--color-dest);
+  outline-offset: 2px;
+}

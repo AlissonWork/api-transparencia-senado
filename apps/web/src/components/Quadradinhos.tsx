@@ -20,6 +20,7 @@ export function Quadradinhos({ parte, destaque = false }: Props) {
       {Array.from({ length: 10 }, (_, i) => (
         <span
           key={i}
+          data-cheio={i < cheios}
           className={`size-3 border ${i < cheios ? cor : 'border-linha bg-white'}`}
         />
       ))}
