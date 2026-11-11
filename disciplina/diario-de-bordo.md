@@ -222,7 +222,7 @@ vizinho e ao cliente (#20).
 
 ### Semana de 30/10
 
-**Quem trabalhou e quanto:** Alisson — 5h até agora (2h30 em 24/10; 2h30 em 26/10)
+**Quem trabalhou e quanto:** Alisson — 7h (2h30 em 24/10; 2h30 em 26/10; 2h em 30/10)
 
 **O que foi feito:**
 
@@ -239,18 +239,31 @@ vizinho e ao cliente (#20).
 - 26/10: página do perfil do senador com o seletor de ano, o total gasto, a posição entre os
   senadores, a frase com o maior gasto, os gastos por categoria (gráfico de 10 quadradinhos), os
   colegas do mesmo estado e o link para conferir no site do Senado (#19).
+- 30/10: acabamento do portal (#19, PR #35): o tamanho de letra escolhido fica salvo no navegador,
+  os botões A− e A+ ficam apagados no limite, contorno de foco para quem navega pelo teclado e os
+  primeiros testes do `apps/web` (formatação de valores, gráfico de quadradinhos e avisos, com
+  Vitest, jsdom e Testing Library). O modo de alto contraste foi descartado.
+- 30/10: nomes curtos das categorias de gasto (#11, PR #36): o perfil passou a mostrar
+  "Passagens" ou "Material de escritório" em vez do nome oficial de duas linhas. A função
+  `semearCategorias` grava as 8 categorias e pode rodar várias vezes sem duplicar.
+- 30/10: conferência do total da senadora Soraya Thronicke com o site do Senado (ver Obstáculo).
 
 **Aprendizado:** o que é CORS e por que o navegador bloqueia uma página de ler outra origem; por
 que o estado do React muda com `setNivel` e não com uma variável comum; `useEffect` com limpeza;
 união discriminada para os estados carregando, erro e pronto; filtros guardados no endereço com
 `useSearchParams`; `Promise.all` para fazer duas buscas ao mesmo tempo; e o `key` para o React
-recriar um componente ao trocar de senador.
+recriar um componente ao trocar de senador. Em 30/10: testar componente React sem navegador (jsdom
+e Testing Library), função falsa (`vi.fn`) para conferir o clique em "Tentar de novo", Prisma falso
+para testar sem banco, e operação idempotente com `upsert` (rodar duas vezes dá o mesmo resultado).
 
 **Obstáculo:**
 
 - O teste "não libera um site qualquer" falhou: com a origem passada como texto, o `@fastify/cors`
   manda o cabeçalho para qualquer site. Resolvido passando uma lista de origens (~15 min). O teste
   do caso negativo foi o que pegou o erro.
+- 30/10: o total de 2026 da senadora Soraya Thronicke no portal ficou R$ 15.264,87 abaixo do site
+  do Senado. A diferença inteira estava em Transporte e Aluguel: eram notas lançadas pelo Senado depois do último sync (16/10). Não era erro no código; o dado
+  local estava desatualizado. Solução: rodar o sync de novo antes de mostrar ao público.
 
 **Contato com o público:** nenhum novo nesta semana.
 
@@ -258,6 +271,49 @@ recriar um componente ao trocar de senador.
 
 **Próxima semana:** acabamento do portal (alto contraste, celular e build na CI) e mostrar o portal
 pessoalmente ao vizinho e ao cliente (#20), registrando o retorno no `evidencias.csv`.
+
+---
+
+### Semana de 06/11
+
+**Quem trabalhou e quanto:** Alisson — 0h
+
+**O que foi feito:** nada nesta semana; o projeto ficou parado.
+
+**Obstáculo:** a pausa atrasou a apresentação do portal ao público, que estava prevista para 07 a
+10/11.
+
+**Contato com o público:** nenhum. A apresentação do portal ao vizinho e ao cliente, prevista para
+esta semana, ficou para a semana seguinte.
+
+**Evidência coletada:** nenhuma nova.
+
+**Próxima semana:** mostrar o portal ao vizinho e registrar o retorno (#20); começar a investigação
+da remuneração dos senadores; fechar `marco-2.md` e marcar a tag `v0.2.0` até 13/11.
+
+---
+
+### Semana de 13/11
+
+**Quem trabalhou e quanto:** Alisson — **(preencher em 13/11)**
+
+**O que foi feito:**
+
+- 11/11: conferência do que faltava para o Marco 2: o #11 entrou na `main` em 30/10 (PR #36) e, do
+  milestone, só a #20 (uso pelo público) segue aberta. Diário das semanas de 30/10 e 06/11 e
+  `marco-2.md` atualizados.
+- **(preencher: o que entrar até 13/11, como remuneração, cota por estado e comparação)**
+
+**Aprendizado:** **(preencher)**
+
+**Obstáculo:** **(preencher, ou "nenhum")**
+
+**Contato com o público:** **(preencher: data, vínculo e como foi a apresentação do portal ao
+vizinho; a mesma informação vai numa linha do `evidencias.csv`)**
+
+**Evidência coletada:** **(preencher: arquivo em `evidencias/`)**
+
+**Próxima semana:** **(preencher: Marco 3, publicação na internet e contagem de visitantes)**
 
 ---
 
