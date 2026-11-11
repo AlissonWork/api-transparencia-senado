@@ -1,6 +1,6 @@
 # Marco 2 — Transparência Senado
 
-> **Rascunho de 26/10/2026.** A entrega é em 13/11/2026. Antes de entregar: refazer os testes do
+> **Rascunho de 11/11/2026.** A entrega é em 13/11/2026. Antes de entregar: refazer os testes do
 > Campo 1 no dia, atualizar o Campo 3 com o retorno do público (#20), conferir a autopontuação e
 > marcar a tag `v0.2.0`. Os trechos ainda pendentes estão marcados com **(pendente)**.
 
@@ -27,8 +27,9 @@ deixar `pnpm dev` rodando, que sobe a API e o portal juntos.
    para ser enviado a outra pessoa.
 2. Clicar em "Ver gastos" de um senador (por exemplo, `http://localhost:5173/senador/5926`) e ver o
    total gasto no ano, a posição entre os senadores, a frase com o maior gasto, a divisão por tipo
-   de gasto com o gráfico de quadradinhos e os colegas do mesmo estado. O link "Conferir estes números no
-   site do Senado" abre a página oficial do mesmo senador para comparar.
+   de gasto com nomes curtos ("Passagens", "Aluguel de escritório") e o gráfico de quadradinhos, e
+   os colegas do mesmo estado. O link "Conferir estes números no site do Senado" abre a página
+   oficial do mesmo senador para comparar.
 3. Rodar `curl "http://localhost:3333/senadores?ano=2026&uf=CE&emExercicio=true"` e receber em JSON
    os senadores do Ceará em exercício com o total do ano; `curl "http://localhost:3333/senadores/5926"`
    devolve o perfil (nome, partido, UF, foto e anos com despesa). Código inválido responde 400 e
@@ -41,14 +42,18 @@ deixar `pnpm dev` rodando, que sobe a API e o portal juntos.
   - Sync dos senadores pela API legislativa: nome completo, partido, UF, foto e quem está em exercício.
   - Rotas `GET /senadores?ano=` (lista com total e filtros) e `GET /senadores/{codigo}` (perfil).
   - Portal web em `apps/web`: lista de senadores com filtros, perfil com gastos por categoria e
-    página "Sobre os dados" em linguagem simples.
+    página "Sobre os dados" em linguagem simples. Barra de acessibilidade que guarda o tamanho de
+    letra escolhido, contorno de foco para teclado e testes de componente (Vitest, jsdom e
+    Testing Library).
+  - Nomes curtos para as 8 categorias de gasto (#11), gravados pelo sync sem duplicar.
   - CI no GitHub Actions (instalação limpa, migrations, build e testes a cada PR) e licença MIT.
   - Primeiro retorno escrito de uma pessoa de fora (vizinho do bairro, 14/10).
 - **Foi cortado, e por quê:**
-  - Remuneração dos senadores: ficou fora do Marco 2 para priorizar o portal, que é o que o público
-    vai usar. A tabela continua no banco, vazia, e pode voltar no Marco 3.
-  - Comparação com a cota disponível por estado: **(pendente — decidir se entra até 13/11 ou vai
-    para o Marco 3)**.
+  - Modo de alto contraste: descartado em 28/10; a barra de acessibilidade ficou só com o tamanho
+    de letra.
+  - Remuneração dos senadores, comparação com a cota disponível por estado, comparação de
+    senadores lado a lado e mapa do Brasil: **(pendente — em 13/11, mover para "Passou a existir"
+    o que entrou e deixar aqui o que foi para o Marco 3, com o motivo)**.
 
 ## Campo 3 — Alcance
 
@@ -59,8 +64,9 @@ deixar `pnpm dev` rodando, que sobe a API e o portal juntos.
 
 **O que o público externo disse.** "Fica mais fácil de acompanhar os políticos em quem eu penso em
 votar." (vizinho do bairro, por email, 14/10). A pergunta dele, "qual maior gasto deles", virou a
-frase de destaque do perfil do senador. **(pendente: retorno do vizinho e do cliente depois de
-usarem o portal, #20.)**
+frase de destaque do perfil do senador. **(pendente: frase do vizinho depois de usar o portal, #20,
+com a data e o arquivo em `evidencias/`. Se o cliente não usar até 13/11, dizer isso aqui e
+registrar a tentativa.)**
 
 ## Campo 4 — Obstáculo e replanejamento
 
@@ -73,6 +79,12 @@ usarem o portal, #20.)**
   `request.params`; o teste do código inválido passava por acaso, e os testes de sucesso pegaram o erro.
 - **CORS liberando qualquer site (24/10, ~15 min).** O teste do caso negativo mostrou que a origem
   passada como texto liberava todos os sites; resolvido com uma lista de origens.
+- **Números diferentes do site do Senado (30/10).** O total de uma senadora ficou R$ 15.264,87
+  abaixo do site oficial. A diferença vinha de notas lançadas depois do último sync (16/10), não de
+  erro no código. O sync passou a ser rodado de novo antes de mostrar o portal, e a atualização
+  automática diária entra no Marco 3.
+- **Atraso na apresentação ao público (06/11 a 11/11).** A apresentação do portal, prevista para
+  07 a 10/11, ficou para a semana da entrega. **(pendente: dizer como foi resolvido)**
 
 ## Campo 5 — Autopontuação
 
@@ -80,7 +92,7 @@ usarem o portal, #20.)**
 
 | Dimensão                            | n.a.? | Pts (0–2) | Por quê, em uma linha                                                                                                           |
 | :---------------------------------- | :---- | :-------- | :------------------------------------------------------------------------------------------------------------------------------ |
-| D1 Qualidade técnica                |       | 2         | Funciona de ponta a ponta (sync → banco → API → portal), com validação de entrada, erros 400/404, 24 testes automatizados e CI. |
+| D1 Qualidade técnica                |       | 2         | Funciona de ponta a ponta (sync → banco → API → portal), com validação de entrada, erros 400/404, 45 testes automatizados e CI. |
 | D2 Alcance e adequação ao público   |       |           | Depende do retorno do público ao usar o portal (#20).                                                                           |
 | D3 Documentação e reprodutibilidade |       |           | Conferir o README num clone limpo antes da entrega.                                                                             |
 | D4 Registro do processo             |       | 2         | Diário semanal, issues no milestone "Marco 2", PRs com descrição e Conventional Commits.                                        |
