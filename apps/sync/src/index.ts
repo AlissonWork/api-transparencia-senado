@@ -7,6 +7,7 @@ import {
 } from './senado.js'
 import { mascararDocumento } from './mascarar.js'
 import { SEM_CATEGORIA, gerarSlug, semearCategorias } from './categorias.js'
+import { sincronizarRemuneracoes } from './folha.js'
 
 // Carrega o .env da raiz (DATABASE_URL), igual ao prisma.config.ts
 const env = new URL('../../../.env', import.meta.url)
@@ -119,6 +120,8 @@ try {
   await semearCategorias(prisma)
   const categorias = await gravarCategorias(despesas)
   const total = await gravarDespesas(despesas, categorias)
+  const remuneracoes = await sincronizarRemuneracoes(prisma, ANO)
+  console.log(`${remuneracoes} linhas de remuneração gravadas`)
 
   await prisma.sincronizacao.update({
     where: { id: execucao.id },
