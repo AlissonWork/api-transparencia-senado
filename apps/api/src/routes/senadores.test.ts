@@ -11,6 +11,7 @@ const app = buildApp()
 
 beforeAll(async () => {
   await prisma.despesa.deleteMany()
+  await prisma.remuneracao.deleteMany()
   await prisma.categoria.deleteMany()
   await prisma.senador.deleteMany()
 
