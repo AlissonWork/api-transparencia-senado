@@ -312,7 +312,7 @@ function DetalheGastos({ perfil, gastos, lista, remuneracao }: PropsDetalhe) {
       </dl>
 
       {maior && (
-        <p className="border-l-4 border-dest bg-dest-clara p-4 text-lg">
+        <p className="border-l-4 border-amarelo bg-dest-clara p-4 text-lg">
           O maior gasto deste senador em {ano} foi com{' '}
           <strong>{maior.categoria}</strong>: {formatarReais(maior.total)}.
         </p>
@@ -383,7 +383,9 @@ function DetalheGastos({ perfil, gastos, lista, remuneracao }: PropsDetalhe) {
                     key={s.codigo}
                     className={`border-t border-linha ${eEste ? 'bg-pri-clara font-bold' : ''}`}
                   >
-                    <td className="px-2 py-2 sm:px-3 font-mono">{s.posicao}º</td>
+                    <td className="px-2 py-2 sm:px-3 font-mono">
+                      {s.posicao}º
+                    </td>
                     <td className="px-2 py-2 sm:px-3">
                       {eEste ? (
                         <>
