@@ -14,6 +14,7 @@ const app = buildApp()
 beforeAll(async () => {
   // Despesas primeiro, porque elas apontam para senador e categoria (FK)
   await prisma.despesa.deleteMany()
+  await prisma.remuneracao.deleteMany()
   await prisma.categoria.deleteMany()
   await prisma.senador.deleteMany()
 
