@@ -3,11 +3,13 @@
 /* As cores e fontes do portal. Cada --color-X vira classes do Tailwind:
    bg-pri, text-pri, border-pri, bg-faixa, text-suave... */
 @theme {
-  --color-pri: #0f5e5a; /* verde-petróleo: menu, títulos, links */
-  --color-pri-escura: #0a3f3c; /* rodapé, hover do menu */
-  --color-pri-clara: #e4f1ef; /* fundo de cabeçalho de tabela */
-  --color-dest: #d6453d; /* destaque: o "maior gasto" */
-  --color-dest-clara: #fdeeed;
+  /* Paleta "verde na frente" (12/11): as cores da bandeira */
+  --color-pri: #0a6b35; /* verde: menu, títulos, links */
+  --color-pri-escura: #064d26; /* rodapé, hover do menu */
+  --color-pri-clara: #e3f2e8; /* fundo de cabeçalho de tabela */
+  --color-amarelo: #f5c400; /* filete do menu e faixa do "maior gasto" (nunca em texto) */
+  --color-dest: #12357a; /* azul: maior gasto no gráfico e contorno do foco */
+  --color-dest-clara: #fff8d9; /* fundo amarelo-claro dos avisos */
   --color-faixa: #f3f5f4; /* fundos de faixa e linhas alternadas */
   --color-linha: #d3dad7; /* bordas */
   --color-texto: #1c2321;
