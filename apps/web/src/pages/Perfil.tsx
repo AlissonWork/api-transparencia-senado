@@ -10,9 +10,11 @@ import {
   buscarGastos,
   buscarPerfil,
   buscarSenadores,
+  buscarRemuneracao,
   type GastosDoAno,
   type PerfilSenador,
   type SenadorDaLista,
+  type RemuneracaoDoAno,
 } from '../api'
 import { NOME_PORTAL } from '../config'
 import { formatarReais } from '../formatar'
@@ -184,6 +186,7 @@ type EstadoGastos =
       ano: number
       gastos: GastosDoAno
       lista: SenadorDaLista[]
+      remuneracao: RemuneracaoDoAno | null
     }
 
 function GastosDoSenador({ perfil }: { perfil: PerfilSenador }) {
@@ -201,14 +204,18 @@ function GastosDoSenador({ perfil }: { perfil: PerfilSenador }) {
     let cancelado = false
 
     // As duas chamadas saem juntas; o .then só roda quando AS DUAS chegarem
-    Promise.all([buscarGastos(perfil.codigo, ano), buscarSenadores(ano)])
-      .then(([gastos, lista]) => {
+    Promise.all([
+      buscarGastos(perfil.codigo, ano),
+      buscarSenadores(ano),
+      buscarRemuneracao(perfil.codigo, ano),
+    ])
+      .then(([gastos, lista, remuneracao]) => {
         if (cancelado) return
         if (!gastos) {
           setEstado({ tipo: 'erro', ano })
           return
         }
-        setEstado({ tipo: 'pronto', ano, gastos, lista })
+        setEstado({ tipo: 'pronto', ano, gastos, lista, remuneracao })
       })
       .catch(() => {
         if (!cancelado) setEstado({ tipo: 'erro', ano })
@@ -261,6 +268,7 @@ function GastosDoSenador({ perfil }: { perfil: PerfilSenador }) {
           perfil={perfil}
           gastos={atual.gastos}
           lista={atual.lista}
+          remuneracao={atual.remuneracao}
         />
       )}
     </>
@@ -273,9 +281,10 @@ type PropsDetalhe = {
   perfil: PerfilSenador
   gastos: GastosDoAno
   lista: SenadorDaLista[]
+  remuneracao: RemuneracaoDoAno | null
 }
 
-function DetalheGastos({ perfil, gastos, lista }: PropsDetalhe) {
+function DetalheGastos({ perfil, gastos, lista, remuneracao }: PropsDetalhe) {
   const { ano, total, porCategoria } = gastos
 
   // Tudo derivado: nada disso é estado
@@ -400,6 +409,8 @@ function DetalheGastos({ perfil, gastos, lista }: PropsDetalhe) {
         </section>
       )}
 
+      <Salario remuneracao={remuneracao} ano={ano} />
+
       <p>
         <a
           href={`https://www6g.senado.leg.br/transparencia/sen/${perfil.codigo}/?ano=${ano}`}
@@ -420,5 +431,62 @@ function ResumoItem({ titulo, valor }: { titulo: string; valor: string }) {
       <dt className="text-sm text-suave">{titulo}</dt>
       <dd className="truncate font-mono text-lg font-bold">{valor}</dd>
     </div>
+  )
+}
+
+const MESES = [
+  'janeiro',
+  'fevereiro',
+  'março',
+  'abril',
+  'maio',
+  'junho',
+  'julho',
+  'agosto',
+  'setembro',
+  'outubro',
+  'novembro',
+  'dezembro',
+]
+
+function Salario({
+  remuneracao,
+  ano,
+}: {
+  remuneracao: RemuneracaoDoAno | null
+  ano: number
+}) {
+  const ultimo = remuneracao?.meses.at(-1) // .at(-1) = último item da lista
+
+  return (
+    <section className="grid gap-2">
+      <h2 className="text-xl font-bold text-pri-escura">Salário</h2>
+      {!ultimo ? (
+        <p className="text-suave">
+          Não encontramos este senador na folha de pagamento do Senado em {ano}.
+        </p>
+      ) : (
+        <>
+          <dl className="grid border border-linha bg-faixa sm:grid-cols-3">
+            <ResumoItem
+              titulo={`Subsídio em ${MESES[ultimo.mes - 1]}`}
+              valor={formatarReais(ultimo.subsidio)}
+            />
+            <ResumoItem
+              titulo={`Recebeu em ${MESES[ultimo.mes - 1]}, já com descontos`}
+              valor={formatarReais(ultimo.liquido)}
+            />
+            <ResumoItem
+              titulo={`Total recebido em ${ano}`}
+              valor={formatarReais(remuneracao!.totalLiquido)}
+            />
+          </dl>
+          <p className="text-sm text-suave">
+            O subsídio é o salário antes de previdência e imposto. Fonte: folha
+            de pagamento do Senado.
+          </p>
+        </>
+      )}
+    </section>
   )
 }

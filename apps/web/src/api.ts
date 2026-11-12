@@ -72,3 +72,15 @@ export function buscarPerfil(codigo: number) {
 export function buscarGastos(codigo: number, ano: number) {
   return pedir<GastosDoAno>(`/senadores/${codigo}/gastos?ano=${ano}`)
 }
+
+// GET /senadores/:codigo/remuneracao?ano=
+export type RemuneracaoDoAno = {
+  senador: { codigo: number; nome: string }
+  ano: number
+  meses: { mes: number; subsidio: number; liquido: number }[]
+  totalLiquido: number
+}
+
+export function buscarRemuneracao(codigo: number, ano: number) {
+  return pedir<RemuneracaoDoAno>(`/senadores/${codigo}/remuneracao?ano=${ano}`)
+}
