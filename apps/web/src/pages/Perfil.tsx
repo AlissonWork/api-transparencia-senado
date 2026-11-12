@@ -328,7 +328,7 @@ function DetalheGastos({ perfil, gastos, lista, remuneracao }: PropsDetalhe) {
               <th className="hidden px-3 py-2 sm:table-cell">#</th>
               <th className="px-3 py-2">Tipo de gasto</th>
               <th className="px-3 py-2 text-right">Valor</th>
-              <th className="px-3 py-2">Parte do total</th>
+              <th className="hidden px-3 py-2 sm:table-cell">Parte do total</th>
             </tr>
           </thead>
           <tbody>
@@ -347,7 +347,7 @@ function DetalheGastos({ perfil, gastos, lista, remuneracao }: PropsDetalhe) {
                 <td className="px-3 py-2 text-right font-mono font-bold whitespace-nowrap">
                   {formatarReais(c.total)}
                 </td>
-                <td className="px-3 py-2">
+                <td className="hidden px-3 py-2 sm:table-cell">
                   <Quadradinhos
                     parte={total > 0 ? c.total / total : 0}
                     destaque={i === 0}
@@ -367,9 +367,12 @@ function DetalheGastos({ perfil, gastos, lista, remuneracao }: PropsDetalhe) {
           <table className="w-full border border-linha">
             <thead className="bg-pri-clara text-left text-sm">
               <tr>
-                <th className="px-3 py-2">Posição</th>
-                <th className="px-3 py-2">Senador</th>
-                <th className="px-3 py-2 text-right">Total em {ano}</th>
+                <th className="px-2 py-2 sm:px-3">
+                  <span className="sm:hidden">Pos.</span>
+                  <span className="hidden sm:inline">Posição</span>
+                </th>
+                <th className="px-2 py-2 sm:px-3">Senador</th>
+                <th className="px-2 py-2 sm:px-3 text-right">Total em {ano}</th>
               </tr>
             </thead>
             <tbody>
@@ -380,8 +383,8 @@ function DetalheGastos({ perfil, gastos, lista, remuneracao }: PropsDetalhe) {
                     key={s.codigo}
                     className={`border-t border-linha ${eEste ? 'bg-pri-clara font-bold' : ''}`}
                   >
-                    <td className="px-3 py-2 font-mono">{s.posicao}º</td>
-                    <td className="px-3 py-2">
+                    <td className="px-2 py-2 sm:px-3 font-mono">{s.posicao}º</td>
+                    <td className="px-2 py-2 sm:px-3">
                       {eEste ? (
                         <>
                           {s.nome}{' '}
@@ -398,7 +401,7 @@ function DetalheGastos({ perfil, gastos, lista, remuneracao }: PropsDetalhe) {
                         </Link>
                       )}
                     </td>
-                    <td className="px-3 py-2 text-right font-mono whitespace-nowrap">
+                    <td className="px-2 py-2 sm:px-3 text-right font-mono whitespace-nowrap">
                       {formatarReais(s.total)}
                     </td>
                   </tr>

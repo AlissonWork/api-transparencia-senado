@@ -141,14 +141,14 @@ function ListaSenadores({ senadores }: { senadores: SenadorComPosicao[] }) {
       {/* Filtro compacto */}
       <div className="grid gap-2 border border-linha p-3">
         <div className="flex gap-2">
-          <label className="flex flex-1 flex-col text-sm font-bold">
+          <label className="flex min-w-0 flex-1 flex-col text-sm font-bold">
             Buscar pelo nome
             <input
               type="search"
               value={busca}
               onChange={(e) => mudarFiltro('busca', e.target.value)}
               placeholder="Ex.: Ana"
-              className={`${campo} font-normal`}
+              className={`${campo} w-full min-w-0 font-normal`}
             />
           </label>
           <button
