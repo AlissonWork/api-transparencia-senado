@@ -1,0 +1,21 @@
+meta {
+  name: 400 - remuneração sem o ano
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/senadores/{{codigo}}/remuneracao
+  body: none
+  auth: none
+}
+
+docs {
+  Sem o parâmetro ano: a API responde 400 com o código PARAMETROS_INVALIDOS.
+}
+
+tests {
+  test("responde 400", function () {
+    expect(res.getStatus()).to.equal(400);
+  });
+}

@@ -1,0 +1,21 @@
+meta {
+  name: 400 - código que não é número
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/senadores/abc/gastos?ano={{ano}}
+  body: none
+  auth: none
+}
+
+docs {
+  Código com letras: a validação com Zod recusa antes de consultar o banco.
+}
+
+tests {
+  test("responde 400", function () {
+    expect(res.getStatus()).to.equal(400);
+  });
+}

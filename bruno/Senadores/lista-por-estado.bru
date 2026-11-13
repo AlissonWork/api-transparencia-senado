@@ -1,0 +1,22 @@
+meta {
+  name: Senadores do estado em exercício
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/senadores?ano={{ano}}&uf={{uf}}&emExercicio=true
+  body: none
+  auth: none
+}
+
+docs {
+  Filtros opcionais: uf, partido e emExercicio (true ou false). Troque a variável uf no ambiente.
+}
+
+tests {
+  test("todos são do estado pedido", function () {
+    const uf = bru.getEnvVar("uf");
+    res.getBody().senadores.forEach((s) => expect(s.uf).to.equal(uf));
+  });
+}

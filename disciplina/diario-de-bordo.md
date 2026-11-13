@@ -295,25 +295,48 @@ da remuneração dos senadores; fechar `marco-2.md` e marcar a tag `v0.2.0` até
 
 ### Semana de 13/11
 
-**Quem trabalhou e quanto:** Alisson — **(preencher em 13/11)**
+**Quem trabalhou e quanto:** Alisson — 5h (3h em 11/11; 2h em 12/11)
 
 **O que foi feito:**
 
 - 11/11: conferência do que faltava para o Marco 2: o #11 entrou na `main` em 30/10 (PR #36) e, do
   milestone, só a #20 (uso pelo público) segue aberta. Diário das semanas de 30/10 e 06/11 e
   `marco-2.md` atualizados.
-- **(preencher: o que entrar até 13/11, como remuneração, cota por estado e comparação)**
+- 11/11: sync rodado de novo (16.505 despesas). O total da senadora conferida em 30/10 bateu com o
+  site do Senado: a diferença era só sync desatualizado.
+- 11/11: investigação da folha de pagamento do Senado: os senadores aparecem nela pelo nome
+  completo, então o salário entrou no Marco 2.
+- 11/11 e 12/11: sync do salário (`apps/sync/src/folha.ts`): converte o dinheiro em texto
+  ("46.366,19") para número, valida as linhas com Zod e grava 902 linhas dos 81 senadores em
+  exercício, com testes unitários.
+- 12/11: rota `GET /senadores/{codigo}/remuneracao?ano=` com 4 testes de integração, e seção
+  "Salário" no perfil do senador.
+- 12/11: portal ajustado para celular (sem rolagem lateral de 320 a 1280 px) e nova identidade
+  visual: logo da lupa com estrela, paleta verde, amarela e azul, favicon e guia em
+  `docs/identidade/`. Tudo entrou na `main` pelo PR #38.
+- 12/11: o portal foi mostrado ao vizinho numa chamada de vídeo, e ele respondeu por email (#20).
 
-**Aprendizado:** **(preencher)**
+**Aprendizado:** comparar textos de fontes diferentes exige normalizar antes (acento, maiúscula,
+espaços e partículas como "de"), e um teste deve provar o que diz: um teste passava sem conferir
+de verdade que um campo era descartado, porque o campo nem estava no dado de entrada. Também: um
+`git push` de branch nova precisa de `-u origin <branch>` para ligar a branch local à remota, e
+depois do Rebase and merge a branch local só sai com `git branch -D`, porque os commits ganham
+hashes novos na `main`.
 
-**Obstáculo:** **(preencher, ou "nenhum")**
+**Obstáculo:** um nome de senadora tinha "DE" na folha e não no cadastro (resolvido normalizando,
+81 de 81); valores nulos na folha pararam o primeiro sync (nulo vira zero, com teste). As outras
+novidades planejadas (cota por estado, comparação, mapa) ficaram para o Marco 3.
 
-**Contato com o público:** **(preencher: data, vínculo e como foi a apresentação do portal ao
-vizinho; a mesma informação vai numa linha do `evidencias.csv`)**
+**Contato com o público:** 12/11, chamada de vídeo com o vizinho do bairro mostrando o portal
+(lista, ranking e perfil de uma senadora). No mesmo dia ele respondeu por email: descobriu que uma
+senadora "gasta muito dinheiro", acha que "o portal serve seu propósito", entendeu a parte do
+salário e "mandaria, principalmente em época de eleição". O cliente ainda não usou o portal.
 
-**Evidência coletada:** **(preencher: arquivo em `evidencias/`)**
+**Evidência coletada:** prints da chamada e da resposta, sem o nome dele, em
+`disciplina/evidencias/2026-11-12-*.png`, e duas linhas no `disciplina/evidencias.csv`.
 
-**Próxima semana:** **(preencher: Marco 3, publicação na internet e contagem de visitantes)**
+**Próxima semana:** Marco 3: publicar a API e o portal na internet, contar visitantes, sync
+automático diário, mostrar ao cliente e começar a cota por estado.
 
 ---
 

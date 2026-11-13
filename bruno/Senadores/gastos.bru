@@ -1,0 +1,22 @@
+meta {
+  name: Gastos do senador no ano
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/senadores/{{codigo}}/gastos?ano={{ano}}
+  body: none
+  auth: none
+}
+
+docs {
+  Total gasto no ano e a divisão por categoria, da maior para a menor.
+}
+
+tests {
+  test("responde 200 com o total", function () {
+    expect(res.getStatus()).to.equal(200);
+    expect(res.getBody()).to.have.property("total");
+  });
+}
