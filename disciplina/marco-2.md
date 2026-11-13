@@ -47,26 +47,43 @@ deixar `pnpm dev` rodando, que sobe a API e o portal juntos.
     Testing Library).
   - Nomes curtos para as 8 categorias de gasto (#11), gravados pelo sync sem duplicar.
   - CI no GitHub Actions (instalação limpa, migrations, build e testes a cada PR) e licença MIT.
-  - Primeiro retorno escrito de uma pessoa de fora (vizinho do bairro, 14/10).
+  - Salário dos senadores: o sync lê a folha de pagamento do Senado mês a mês e liga cada linha ao
+    senador pelo nome completo; rota `GET /senadores/{codigo}/remuneracao?ano=` (soma a folha
+    Normal e a Suplementar de cada mês); seção "Salário" no perfil com o subsídio do último mês, o
+    líquido do mês e o total líquido do ano.
+  - Portal ajustado para celular (sem rolagem lateral de 320 a 1280 px) e identidade visual própria:
+    logo da lupa com estrela, paleta verde, amarela e azul e guia em `docs/identidade/`.
+  - Dois retornos escritos do vizinho do bairro: antes do portal (14/10) e depois de usá-lo (12/11).
 - **Foi cortado, e por quê:**
   - Modo de alto contraste: descartado em 28/10; a barra de acessibilidade ficou só com o tamanho
     de letra.
-  - Remuneração dos senadores, comparação com a cota disponível por estado, comparação de
-    senadores lado a lado e mapa do Brasil: **(pendente — em 13/11, mover para "Passou a existir"
-    o que entrou e deixar aqui o que foi para o Marco 3, com o motivo)**.
+  - Ficaram para o Marco 3: comparação com a cota disponível por estado ("usou X% do limite"),
+    comparação de senadores lado a lado, mapa do Brasil, tabela do salário mês a mês, detalhamento
+    dos descontos (previdência e imposto) e comparação salário x gastos da cota. Motivo: a semana de
+    06/11 ficou parada, e a prioridade foi fechar o salário de ponta a ponta, com testes, e mostrar
+    o portal ao público antes da entrega.
 
 ## Campo 3 — Alcance
 
 | Indicador                                             | Planejado | Obtido até hoje                                                | Onde está a evidência                        |
 | :---------------------------------------------------- | :-------- | :------------------------------------------------------------- | :------------------------------------------- |
 | Visitantes únicos no endereço público (02/10 a 27/11) | 20        | 0 — o produto ainda não está publicado (Marco 3)               | —                                            |
-| Retornos escritos de pessoas de fora                  | 2         | 1 — vizinho do bairro, 14/10 (prova dos nove, antes do portal) | `evidencias/2026-10-14-resposta-vizinho.png` |
+| Retornos escritos de pessoas de fora                  | 2         | 2 — ambos do vizinho do bairro: 14/10 (prova dos nove, antes do portal) e 12/11 (depois de usar o portal) | `evidencias/2026-10-14-resposta-vizinho.png`, `evidencias/2026-11-12-resposta-vizinho.png` |
 
 **O que o público externo disse.** "Fica mais fácil de acompanhar os políticos em quem eu penso em
 votar." (vizinho do bairro, por email, 14/10). A pergunta dele, "qual maior gasto deles", virou a
-frase de destaque do perfil do senador. **(pendente: frase do vizinho depois de usar o portal, #20,
-com a data e o arquivo em `evidencias/`. Se o cliente não usar até 13/11, dizer isso aqui e
-registrar a tentativa.)**
+frase de destaque do perfil do senador.
+
+Em 12/11 o vizinho usou o portal numa chamada de vídeo, com a lista, o ranking e o perfil de uma
+senadora na tela, e respondeu por email: "Soraya Thronicke gasta muito dinheiro.", "Acredito que o
+portal serve seu propósito.", a parte do salário ficou fácil de entender ("Sim.") e "Mandaria,
+principalmente em época de eleição." (vizinho do bairro, 12/11; prints em
+`evidencias/2026-11-12-*.png`). A pergunta pedia os senadores do Ceará, mas ele foi direto para quem
+mais gasta: o ranking chamou mais atenção que o filtro por estado. Ele não apontou nada que faltou.
+
+Os dois retornos são da mesma pessoa; o cliente não usou o portal até 13/11: não houve contato com ele
+nesta reta final, e a prioridade foi o vizinho, que já estava combinado. Para o Marco 3, com o portal publicado, a meta é ouvir o
+cliente e mais uma pessoa.
 
 ## Campo 4 — Obstáculo e replanejamento
 
@@ -84,7 +101,18 @@ registrar a tentativa.)**
   erro no código. O sync passou a ser rodado de novo antes de mostrar o portal, e a atualização
   automática diária entra no Marco 3.
 - **Atraso na apresentação ao público (06/11 a 11/11).** A apresentação do portal, prevista para
-  07 a 10/11, ficou para a semana da entrega. **(pendente: dizer como foi resolvido)**
+  07 a 10/11, ficou para a semana da entrega. Resolvido combinando com o vizinho por telefone e
+mostrando o portal numa chamada de vídeo em 12/11, com o retorno escrito por email na mesma noite;
+as novidades que não cabiam no prazo foram para o Marco 3 (Campo 2).
+- **Nomes diferentes entre a folha e o cadastro (11/11).** Para ligar o salário ao senador pelo nome
+  completo, 79 dos 81 senadores em exercício bateram de primeira. Uma senadora aparece na folha com
+  "DE" no meio do nome e no cadastro sem. Resolvido normalizando os nomes (sem acento, maiúsculas e
+  sem as partículas de, da, do, dos, das, e), com testes, inclusive o de não apagar "DE" dentro de
+  palavras como "ANDERSON": 81 de 81.
+- **Valores nulos na folha (12/11).** O primeiro sync do salário parou com erro de validação porque
+  alguns campos de dinheiro vinham nulos. Resolvido tratando nulo como zero, com teste.
+- **Diferença de R$ 15.264,87 resolvida (11/11).** Depois de um sync novo, o total da senadora
+  conferida em 30/10 bateu com o site do Senado (R$ 486.321,28).
 
 ## Campo 5 — Autopontuação
 
@@ -93,7 +121,7 @@ registrar a tentativa.)**
 | Dimensão                            | n.a.? | Pts (0–2) | Por quê, em uma linha                                                                                                           |
 | :---------------------------------- | :---- | :-------- | :------------------------------------------------------------------------------------------------------------------------------ |
 | D1 Qualidade técnica                |       | 2         | Funciona de ponta a ponta (sync → banco → API → portal), com validação de entrada, erros 400/404, 45 testes automatizados e CI. |
-| D2 Alcance e adequação ao público   |       |           | Depende do retorno do público ao usar o portal (#20).                                                                           |
+| D2 Alcance e adequação ao público   |       | 1         | Pessoa de fora usou o portal e respondeu por escrito, mas os 2 retornos são da mesma pessoa e o cliente ainda não usou.         |
 | D3 Documentação e reprodutibilidade |       |           | Conferir o README num clone limpo antes da entrega.                                                                             |
 | D4 Registro do processo             |       | 2         | Diário semanal, issues no milestone "Marco 2", PRs com descrição e Conventional Commits.                                        |
 | D5 Autoavaliação e reflexão         | n.a.  | —         | Prevista para 04/12.                                                                                                            |

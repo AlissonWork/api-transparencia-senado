@@ -1,0 +1,22 @@
+meta {
+  name: Lista de senadores
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/senadores?ano={{ano}}
+  body: none
+  auth: none
+}
+
+docs {
+  Todos os senadores com o total gasto no ano, do maior para o menor.
+}
+
+tests {
+  test("responde 200 com uma lista", function () {
+    expect(res.getStatus()).to.equal(200);
+    expect(res.getBody().senadores).to.be.an("array");
+  });
+}

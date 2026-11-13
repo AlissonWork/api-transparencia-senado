@@ -1,0 +1,6 @@
+{
+  "version": "1",
+  "name": "De Olho na Cota - API",
+  "type": "collection",
+  "ignore": ["node_modules", ".git"]
+}

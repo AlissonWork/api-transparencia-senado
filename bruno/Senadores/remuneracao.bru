@@ -1,0 +1,22 @@
+meta {
+  name: Salário do senador no ano
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/senadores/{{codigo}}/remuneracao?ano={{ano}}
+  body: none
+  auth: none
+}
+
+docs {
+  Salário mês a mês (subsídio e líquido, somando a folha Normal e a Suplementar) e o total líquido do ano.
+}
+
+tests {
+  test("responde 200 com os meses", function () {
+    expect(res.getStatus()).to.equal(200);
+    expect(res.getBody().meses).to.be.an("array");
+  });
+}

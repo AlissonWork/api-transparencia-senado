@@ -1,0 +1,21 @@
+meta {
+  name: Perfil do senador
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/senadores/{{codigo}}
+  body: none
+  auth: none
+}
+
+docs {
+  Nome completo, partido, UF, foto, se está em exercício e os anos com despesa.
+}
+
+tests {
+  test("responde 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+}
