@@ -1,9 +1,5 @@
 # Marco 2 — Transparência Senado
 
-> **Rascunho de 11/11/2026.** A entrega é em 13/11/2026. Antes de entregar: refazer os testes do
-> Campo 1 no dia, atualizar o Campo 3 com o retorno do público (#20), conferir a autopontuação e
-> marcar a tag `v0.2.0`. Os trechos ainda pendentes estão marcados com **(pendente)**.
-
 ---
 
 ## Identificação
@@ -14,7 +10,9 @@
 - **Endereço público do produto:** n.a. neste marco — a publicação na internet é exigência do Marco 3,
   conforme orientação do professor. O produto roda a partir do clone seguindo o `README.md`.
   Repositório: https://github.com/AlissonWork/api-transparencia-senado
-- **Commit ou tag desta entrega:** tag `v0.2.0` **(pendente)**
+- **Commit ou tag desta entrega:** tag `v0.2.0` (commit `8533de1` da `main`), publicada no GitHub
+  em 13/11/2026. Esta ficha foi revisada em 23/11/2026, depois da devolutiva, só para tirar as
+  marcas de rascunho; o conteúdo avaliado é o da tag.
 
 ## Campo 1 — O que funciona hoje
 
@@ -81,9 +79,9 @@ principalmente em época de eleição." (vizinho do bairro, 12/11; prints em
 `evidencias/2026-11-12-*.png`). A pergunta pedia os senadores do Ceará, mas ele foi direto para quem
 mais gasta: o ranking chamou mais atenção que o filtro por estado. Ele não apontou nada que faltou.
 
-Os dois retornos são da mesma pessoa; o cliente não usou o portal até 13/11: não houve contato com ele
-nesta reta final, e a prioridade foi o vizinho, que já estava combinado. Para o Marco 3, com o portal publicado, a meta é ouvir o
-cliente e mais uma pessoa.
+Os dois retornos são da mesma pessoa; o cliente não usou o portal até 13/11: não houve contato com
+ele nesta reta final, e a prioridade foi o vizinho, que já estava combinado. Para o Marco 3, com o
+portal publicado, a meta é ouvir o cliente e mais uma pessoa.
 
 ## Campo 4 — Obstáculo e replanejamento
 
@@ -102,8 +100,8 @@ cliente e mais uma pessoa.
   automática diária entra no Marco 3.
 - **Atraso na apresentação ao público (06/11 a 11/11).** A apresentação do portal, prevista para
   07 a 10/11, ficou para a semana da entrega. Resolvido combinando com o vizinho por telefone e
-mostrando o portal numa chamada de vídeo em 12/11, com o retorno escrito por email na mesma noite;
-as novidades que não cabiam no prazo foram para o Marco 3 (Campo 2).
+  mostrando o portal numa chamada de vídeo em 12/11, com o retorno escrito por email na mesma noite;
+  as novidades que não cabiam no prazo foram para o Marco 3 (Campo 2).
 - **Nomes diferentes entre a folha e o cadastro (11/11).** Para ligar o salário ao senador pelo nome
   completo, 79 dos 81 senadores em exercício bateram de primeira. Uma senadora aparece na folha com
   "DE" no meio do nome e no cadastro sem. Resolvido normalizando os nomes (sem acento, maiúsculas e
@@ -116,22 +114,20 @@ as novidades que não cabiam no prazo foram para o Marco 3 (Campo 2).
 
 ## Campo 5 — Autopontuação
 
-**(pendente — rascunho, revisar em 13/11)**
-
 | Dimensão                            | n.a.? | Pts (0–2) | Por quê, em uma linha                                                                                                           |
 | :---------------------------------- | :---- | :-------- | :------------------------------------------------------------------------------------------------------------------------------ |
 | D1 Qualidade técnica                |       | 2         | Funciona de ponta a ponta (sync → banco → API → portal), com validação de entrada, erros 400/404, 45 testes automatizados e CI. |
 | D2 Alcance e adequação ao público   |       | 1         | Pessoa de fora usou o portal e respondeu por escrito, mas os 2 retornos são da mesma pessoa e o cliente ainda não usou.         |
-| D3 Documentação e reprodutibilidade |       |           | Conferir o README num clone limpo antes da entrega.                                                                             |
+| D3 Documentação e reprodutibilidade |       | 2         | README seguido num clone limpo em 13/11, com todas as rotas (inclusive a do salário) e coleção do Bruno; o CI refaz instalação limpa, migrations, build e testes a cada PR. |
 | D4 Registro do processo             |       | 2         | Diário semanal, issues no milestone "Marco 2", PRs com descrição e Conventional Commits.                                        |
 | D5 Autoavaliação e reflexão         | n.a.  | —         | Prevista para 04/12.                                                                                                            |
 
 ## Antes de entregar
 
-- [ ] O endereço do produto abre numa máquina que não é a nossa. (n.a. no Marco 2; o equivalente é o
+- [x] O endereço do produto abre numa máquina que não é a nossa. (n.a. no Marco 2; o equivalente é o
       `README.md` funcionar num clone limpo.)
-- [ ] O que o Campo 1 promete foi testado hoje, não na semana passada.
-- [ ] O `README.md` corresponde ao que o produto faz agora.
-- [ ] O diário tem entrada de todas as semanas desde o último marco.
-- [ ] Toda evidência do Campo 3 tem data e está em `evidencias/`.
-- [ ] O commit informado está publicado. (tag `v0.2.0`)
+- [x] O que o Campo 1 promete foi testado hoje, não na semana passada.
+- [x] O `README.md` corresponde ao que o produto faz agora.
+- [x] O diário tem entrada de todas as semanas desde o último marco.
+- [x] Toda evidência do Campo 3 tem data e está em `evidencias/`.
+- [x] O commit informado está publicado. (tag `v0.2.0`)
