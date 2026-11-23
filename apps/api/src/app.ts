@@ -3,6 +3,7 @@ import cors from '@fastify/cors'
 import { rotasDespesas } from './routes/despesas.js'
 import { rotasSenadores } from './routes/senadores.js'
 import { rotasRemuneracao } from './routes/remuneracao.js'
+import { rotasSincronizacao } from './routes/sincronizacao.js'
 
 export function buildApp() {
   // Em teste, o Vitest define NODE_ENV=test: desliga o log de cada requisição
@@ -23,6 +24,7 @@ export function buildApp() {
   app.register(rotasDespesas)
   app.register(rotasSenadores)
   app.register(rotasRemuneracao)
+  app.register(rotasSincronizacao)
 
   return app
 }
