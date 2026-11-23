@@ -49,7 +49,14 @@ beforeAll(async () => {
     data: [
       { ...base, id: 1, ano: 2026, categoriaId: passagens.id, valor: '100.50' },
       { ...base, id: 2, ano: 2026, categoriaId: passagens.id, valor: '200.25' },
-      { ...base, id: 3, ano: 2026, categoriaId: divulgacao.id, valor: '50.00' },
+      {
+        ...base,
+        id: 3,
+        mes: 3,
+        ano: 2026,
+        categoriaId: divulgacao.id,
+        valor: '50.00',
+      },
       { ...base, id: 4, ano: 2025, categoriaId: passagens.id, valor: '999.99' },
     ],
   })
@@ -84,6 +91,10 @@ describe('GET /senadores/:codigo/gastos', () => {
           quantidade: 1,
           total: 50,
         },
+      ],
+      porMes: [
+        { mes: 1, total: 300.75 }, // as duas passagens
+        { mes: 3, total: 50 }, // a divulgação
       ],
     })
   })

@@ -17,10 +17,11 @@ import {
   type RemuneracaoDoAno,
 } from '../api'
 import { NOME_PORTAL } from '../config'
-import { formatarReais } from '../formatar'
+import { formatarReais, MESES } from '../formatar'
 import { FotoSenador, SeloSituacao } from '../components/Senador'
 import { Quadradinhos } from '../components/Quadradinhos'
 import { AvisoCarregando, AvisoErro } from '../components/Aviso'
+import { GastosPorMes } from '../components/GastosPorMes'
 
 // ===== 1. Lê o código do endereço =====
 
@@ -358,7 +359,14 @@ function DetalheGastos({ perfil, gastos, lista, remuneracao }: PropsDetalhe) {
           </tbody>
         </table>
       </section>
-
+      {gastos.porMes.length > 0 && (
+        <section className="grid gap-2">
+          <h2 className="text-xl font-bold text-pri-escura">
+            Gastos mês a mês
+          </h2>
+          <GastosPorMes meses={gastos.porMes} />
+        </section>
+      )}
       {colegas.length > 1 && (
         <section className="grid gap-2">
           <h2 className="text-xl font-bold text-pri-escura">
@@ -439,21 +447,6 @@ function ResumoItem({ titulo, valor }: { titulo: string; valor: string }) {
   )
 }
 
-const MESES = [
-  'janeiro',
-  'fevereiro',
-  'março',
-  'abril',
-  'maio',
-  'junho',
-  'julho',
-  'agosto',
-  'setembro',
-  'outubro',
-  'novembro',
-  'dezembro',
-]
-
 function Salario({
   remuneracao,
   ano,
@@ -486,6 +479,7 @@ function Salario({
               valor={formatarReais(remuneracao!.totalLiquido)}
             />
           </dl>
+
           <p className="text-sm text-suave">
             O subsídio é o salário antes de previdência e imposto. Fonte: folha
             de pagamento do Senado.

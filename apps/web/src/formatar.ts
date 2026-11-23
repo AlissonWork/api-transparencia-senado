@@ -37,3 +37,18 @@ const diaMes = new Intl.DateTimeFormat('pt-BR', {
 export function formatarDiaMes(iso: string) {
   return diaMes.format(new Date(iso))
 }
+
+export const MESES = [
+  'janeiro',
+  'fevereiro',
+  'março',
+  'abril',
+  'maio',
+  'junho',
+  'julho',
+  'agosto',
+  'setembro',
+  'outubro',
+  'novembro',
+  'dezembro',
+]

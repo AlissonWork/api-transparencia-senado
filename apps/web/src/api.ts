@@ -43,6 +43,7 @@ export type GastosDoAno = {
   ano: number
   total: number
   porCategoria: GastoPorCategoria[]
+  porMes: { mes: number; total: number }[]
 }
 
 // Faz o GET e devolve o JSON já com o tipo T.
