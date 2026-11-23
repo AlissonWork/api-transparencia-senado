@@ -69,6 +69,24 @@ export async function rotasDespesas(app: FastifyInstance) {
 
     const total = porCategoria.reduce((soma, c) => soma + c.total, 0)
 
-    return { senador, ano, total: Number(total.toFixed(2)), porCategoria }
+    // 5. Soma por mês (GROUP BY mes + SUM(valor)), só os meses com gasto
+    const meses = await prisma.despesa.groupBy({
+      by: ['mes'],
+      where: { senadorCodigo: codigo, ano },
+      _sum: { valor: true },
+      orderBy: { mes: 'asc' },
+    })
+    const porMes = meses.map((m) => ({
+      mes: m.mes,
+      total: Number(m._sum.valor ?? 0),
+    }))
+
+    return {
+      senador,
+      ano,
+      total: Number(total.toFixed(2)),
+      porCategoria,
+      porMes,
+    }
   })
 }
