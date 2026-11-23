@@ -84,3 +84,10 @@ export type RemuneracaoDoAno = {
 export function buscarRemuneracao(codigo: number, ano: number) {
   return pedir<RemuneracaoDoAno>(`/senadores/${codigo}/remuneracao?ano=${ano}`)
 }
+
+// GET /sincronizacao
+export type Atualizacao = { atualizadoEm: string | null }
+
+export function buscarAtualizacao() {
+  return pedir<Atualizacao>('/sincronizacao')
+}

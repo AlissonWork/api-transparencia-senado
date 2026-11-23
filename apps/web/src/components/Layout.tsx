@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { Link, NavLink, Outlet } from 'react-router'
 import { NOME_PORTAL, SUBTITULO_PORTAL } from '../config'
 import { lerPreferencia, salvarPreferencia } from '../preferencias'
+import { buscarAtualizacao } from '../api'
+import { formatarDiaMes } from '../formatar'
 
 // Tamanhos de letra permitidos pelos botões A- e A+ (em % do padrão do navegador)
 const TAMANHOS = [93.75, 106.25, 118.75, 131.25, 143.75] // 15, 17, 19, 21 e 23px
@@ -134,16 +136,55 @@ function Menu() {
 }
 
 function Rodape() {
+  const [atualizadoEm, setAtualizadoEm] = useState<string | null>(null)
+
+  useEffect(() => {
+    buscarAtualizacao()
+      .then((dados) => setAtualizadoEm(dados?.atualizadoEm ?? null))
+      .catch(() => {}) // se a API falhar, o rodapé só fica sem a data
+  }, [])
+
+  // link claro sobre o verde escuro; o foco fica amarelo, porque o azul some aqui
+  const link =
+    'text-white underline underline-offset-2 hover:text-amarelo focus-visible:outline-amarelo'
+
   return (
-    <footer className="bg-pri-escura text-sm text-white">
-      <div className="mx-auto flex max-w-6xl flex-wrap justify-between gap-2 px-4 py-5">
-        <span>
-          Fonte: dados abertos do Senado Federal. Portal independente, sem
-          ligação com o Senado ou com o governo.
-        </span>
-        <span>
-          {NOME_PORTAL} · projeto de extensão universitária · código aberto
-        </span>
+    <footer className="border-t-4 border-amarelo bg-pri-escura text-white">
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 px-4 py-4 text-center sm:flex-row sm:justify-between sm:text-left">
+        <div>
+          <strong className="block">{NOME_PORTAL}</strong>
+          <span className="text-xs text-white/70">
+            Portal independente, sem ligação com o Senado
+          </span>
+        </div>
+
+        <ul className="flex flex-wrap justify-center gap-x-5 gap-y-1 text-xs text-white/80 sm:justify-end">
+          {atualizadoEm && (
+            <li className="whitespace-nowrap">
+              Atualizado em{' '}
+              <strong className="text-white">
+                {formatarDiaMes(atualizadoEm)}
+              </strong>
+            </li>
+          )}
+          <li className="whitespace-nowrap">
+            Fonte:{' '}
+            <a
+              className={link}
+              href="https://www12.senado.leg.br/dados-abertos"
+            >
+              Senado Federal
+            </a>
+          </li>
+          <li className="whitespace-nowrap">
+            <a
+              className={link}
+              href="https://github.com/AlissonWork/api-transparencia-senado"
+            >
+              Código aberto
+            </a>
+          </li>
+        </ul>
       </div>
     </footer>
   )
