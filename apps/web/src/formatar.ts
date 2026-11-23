@@ -26,3 +26,14 @@ const porcentagem = new Intl.NumberFormat('pt-BR', {
 export function formatarPorcentagem(parte: number) {
   return porcentagem.format(parte)
 }
+
+// "2026-11-11T01:30:00.000Z" vira "10/11": a data no horário de Brasília
+const diaMes = new Intl.DateTimeFormat('pt-BR', {
+  day: '2-digit',
+  month: '2-digit',
+  timeZone: 'America/Sao_Paulo',
+})
+
+export function formatarDiaMes(iso: string) {
+  return diaMes.format(new Date(iso))
+}
