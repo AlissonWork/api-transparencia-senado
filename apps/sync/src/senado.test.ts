@@ -12,6 +12,21 @@ const exemplo = {
     SiglaPartidoParlamentar: 'REPUBLICANOS',
     UfParlamentar: 'AC',
   },
+  Mandato: { DescricaoParticipacao: 'Titular' },
+}
+
+// Recorte real de um suplente em exercício (25/11/2026)
+const suplente = {
+  IdentificacaoParlamentar: {
+    ...exemplo.IdentificacaoParlamentar,
+    CodigoParlamentar: '5257',
+    NomeParlamentar: 'Renzo Braz',
+    UfParlamentar: 'MG',
+  },
+  Mandato: {
+    DescricaoParticipacao: '1º Suplente',
+    Titular: { NomeParlamentar: 'Rodrigo Pacheco' },
+  },
 }
 
 describe('converterParlamentar', () => {
@@ -25,7 +40,27 @@ describe('converterParlamentar', () => {
       uf: 'AC',
       urlFoto:
         'https://www.senado.leg.br/senadores/img/fotos-oficiais/senador5672.jpg',
+      suplenteDe: null, // titular
     })
+  })
+
+  it('guarda o nome do titular quando é suplente', () => {
+    const senador = converterParlamentar(parlamentarSchema.parse(suplente))
+    expect(senador.suplenteDe).toBe('Rodrigo Pacheco')
+  })
+
+  it('marca como suplente mesmo sem o nome do titular', () => {
+    const semTitular = {
+      ...suplente,
+      Mandato: { DescricaoParticipacao: '2º Suplente' },
+    }
+    const senador = converterParlamentar(parlamentarSchema.parse(semTitular))
+    expect(senador.suplenteDe).toBe('titular')
+  })
+
+  it('recusa senador sem o bloco Mandato', () => {
+    const { Mandato: _, ...semMandato } = exemplo
+    expect(() => parlamentarSchema.parse(semMandato)).toThrow()
   })
 
   it('recusa senador sem UF', () => {

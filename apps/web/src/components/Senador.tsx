@@ -31,11 +31,29 @@ export function FotoSenador({ url, nome, grande = false }: PropsFoto) {
   )
 }
 
-export function SeloSituacao({ emExercicio }: { emExercicio: boolean }) {
+type PropsSelo = {
+  emExercicio: boolean
+  suplenteDe?: string | null
+}
+
+export function SeloSituacao({ emExercicio, suplenteDe = null }: PropsSelo) {
   return emExercicio ? (
-    <span className="inline-block border border-ok bg-ok-clara px-1.5 text-xs font-bold text-ok">
-      No cargo hoje
-    </span>
+    <>
+      <span className="inline-block border border-ok bg-ok-clara px-1.5 text-xs font-bold text-ok">
+        No cargo hoje
+      </span>
+      {/* Suplente em exercício: um segundo selo, em azul, com o titular */}
+      {suplenteDe && (
+        <>
+          {' '}
+          <span className="inline-block border border-dest bg-white px-1.5 text-xs font-bold text-dest">
+            {suplenteDe === 'titular'
+              ? 'Suplente'
+              : `Suplente de ${suplenteDe}`}
+          </span>
+        </>
+      )}
+    </>
   ) : (
     <span className="inline-block border border-linha bg-faixa px-1.5 text-xs font-bold text-suave">
       Fora do cargo

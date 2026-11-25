@@ -258,7 +258,10 @@ function ListaSenadores({ senadores }: { senadores: SenadorComPosicao[] }) {
                       <FotoSenador url={s.urlFoto} nome={s.nome} />
                       <div>
                         <p className="font-bold">{s.nome}</p>
-                        <SeloSituacao emExercicio={s.emExercicio} />
+                        <SeloSituacao
+                          emExercicio={s.emExercicio}
+                          suplenteDe={s.suplenteDe}
+                        />
                       </div>
                     </div>
                   </td>
@@ -291,7 +294,10 @@ function ListaSenadores({ senadores }: { senadores: SenadorComPosicao[] }) {
                   <p className="text-sm text-suave">
                     {s.partido ?? 'Sem partido'} · {s.uf ?? '—'}
                   </p>
-                  <SeloSituacao emExercicio={s.emExercicio} />
+                  <SeloSituacao
+                    emExercicio={s.emExercicio}
+                    suplenteDe={s.suplenteDe}
+                  />
                   <p className="mt-1 font-mono text-lg font-bold">
                     {formatarReais(s.total)}
                   </p>

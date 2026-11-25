@@ -25,6 +25,7 @@ export function criarRepositorioSenadores(prisma: PrismaClient) {
           uf: true,
           urlFoto: true,
           emExercicio: true,
+          suplenteDe: true,
         },
       })
 
@@ -59,6 +60,7 @@ export function criarRepositorioSenadores(prisma: PrismaClient) {
           uf: true,
           urlFoto: true,
           emExercicio: true,
+          suplenteDe: true,
         },
       })
       // Não achou: devolve null. Quem decide que isso vira 404 é a rota.

@@ -9,6 +9,7 @@ export type SenadorDaLista = {
   uf: string | null
   urlFoto: string | null
   emExercicio: boolean
+  suplenteDe: string | null // nome do titular; null = é o titular
   total: number
 }
 
@@ -27,6 +28,7 @@ export type PerfilSenador = {
   uf: string | null
   urlFoto: string | null
   emExercicio: boolean
+  suplenteDe: string | null // nome do titular; null = é o titular
   anosComDespesa: number[]
 }
 

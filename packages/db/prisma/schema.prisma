@@ -20,6 +20,7 @@ model Senador {
   uf           String?       @db.Char(2)
   urlFoto      String?       @map("url_foto")
   emExercicio  Boolean       @default(false) @map("em_exercicio")
+  suplenteDe   String?       @map("suplente_de") // nome do titular; null = é o titular
   atualizadoEm DateTime      @updatedAt @map("atualizado_em")
   despesas     Despesa[]
   remuneracoes Remuneracao[]

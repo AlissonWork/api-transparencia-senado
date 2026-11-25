@@ -183,6 +183,7 @@ curl "http://localhost:3333/senadores?ano=2026&uf=CE&emExercicio=true"
       "uf": "CE",
       "urlFoto": "https://www.senado.leg.br/.../senador5926.jpg",
       "emExercicio": true,
+      "suplenteDe": null,
       "total": 412345.67
     }
   ]
@@ -195,6 +196,9 @@ curl "http://localhost:3333/senadores?ano=2026&uf=CE&emExercicio=true"
 
 Perfil de um senador: nome parlamentar e completo, partido, estado, foto, se está no cargo e os anos
 em que teve despesa (o portal usa essa lista no seletor de ano).
+
+O campo `suplenteDe` (também na lista) traz o nome do titular quando o senador é um suplente em
+exercício, e `null` quando ele é o próprio titular.
 
 ```bash
 curl "http://localhost:3333/senadores/5926"
@@ -212,6 +216,7 @@ curl "http://localhost:3333/senadores/5926"
   "uf": "CE",
   "urlFoto": "https://www.senado.leg.br/.../senador5926.jpg",
   "emExercicio": true,
+  "suplenteDe": null,
   "anosComDespesa": [2026, 2025]
 }
 ```

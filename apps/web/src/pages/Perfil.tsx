@@ -170,7 +170,10 @@ function CabecalhoPerfil({ perfil }: { perfil: PerfilSenador }) {
           {perfil.partido ?? 'Sem partido'} · {perfil.uf ?? '—'}
         </p>
         <div>
-          <SeloSituacao emExercicio={perfil.emExercicio} />
+          <SeloSituacao
+            emExercicio={perfil.emExercicio}
+            suplenteDe={perfil.suplenteDe}
+          />
         </div>
       </div>
     </div>
