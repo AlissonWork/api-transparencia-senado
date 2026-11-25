@@ -33,7 +33,11 @@ function BarraAcessibilidade() {
   })
 
   useEffect(() => {
-    document.documentElement.style.fontSize = `${TAMANHOS[nivel]}%`
+    // Só o CSS do computador lê esta variável (veja o index.css)
+    document.documentElement.style.setProperty(
+      '--tamanho-letra',
+      `${TAMANHOS[nivel]}%`,
+    )
     salvarPreferencia('tamanho-letra', String(nivel))
   }, [nivel])
 
@@ -46,7 +50,7 @@ function BarraAcessibilidade() {
         <a href="#conteudo" className={botao}>
           Ir para o conteúdo
         </a>
-        <div className="flex items-center gap-1">
+        <div className="hidden items-center gap-1 sm:flex">
           <button
             type="button"
             className={botao}
@@ -126,6 +130,9 @@ function Menu() {
         {/* end: só fica "ativo" exatamente em /, e não em /sobre também */}
         <NavLink to="/" end className={estilo}>
           Senadores
+        </NavLink>
+        <NavLink to="/comparar" className={estilo}>
+          Comparar
         </NavLink>
         <NavLink to="/sobre" className={estilo}>
           Sobre os dados

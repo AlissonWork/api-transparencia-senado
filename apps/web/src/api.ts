@@ -92,3 +92,21 @@ export type Atualizacao = { atualizadoEm: string | null }
 export function buscarAtualizacao() {
   return pedir<Atualizacao>('/sincronizacao')
 }
+
+// Tudo que a comparação precisa de UM senador
+export type DadosComparacao = {
+  perfil: PerfilSenador
+  gastos: GastosDoAno | null
+  remuneracao: RemuneracaoDoAno | null
+}
+
+export async function buscarParaComparar(codigo: number, ano: number) {
+  // As 3 saem juntas; esperar uma por uma seria 3x mais lento
+  const [perfil, gastos, remuneracao] = await Promise.all([
+    buscarPerfil(codigo),
+    buscarGastos(codigo, ano),
+    buscarRemuneracao(codigo, ano),
+  ])
+  if (!perfil) return null // senador não existe
+  return { perfil, gastos, remuneracao }
+}
