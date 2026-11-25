@@ -20,6 +20,7 @@ erDiagram
         char uf "opcional, 2 letras"
         string urlFoto "opcional, foto oficial"
         boolean emExercicio "false para suplentes que saíram e afastados"
+        string suplenteDe "opcional, nome do titular se for suplente em exercício"
         boolean auxilioMoradia "opcional, Marco 2"
         boolean imovelFuncional "opcional, Marco 2"
     }

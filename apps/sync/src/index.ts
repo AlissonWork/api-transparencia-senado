@@ -42,9 +42,12 @@ async function gravarSenadoresEmExercicio() {
   const senadores = await buscarSenadoresEmExercicio()
   await prisma.$transaction(
     async (tx) => {
-      // Todo mundo vira "fora do cargo"; logo abaixo, os 81 atuais voltam a true.
+      // Todo mundo vira "fora do cargo" e sem suplência; logo abaixo, os 81
+      // atuais voltam a true (e o suplente ganha o nome do titular).
       // Assim, quem saiu do Senado fica com false sem precisarmos saber quem foi.
-      await tx.senador.updateMany({ data: { emExercicio: false } })
+      await tx.senador.updateMany({
+        data: { emExercicio: false, suplenteDe: null },
+      })
       for (const s of senadores) {
         await tx.senador.upsert({
           where: { codigo: s.codigo },

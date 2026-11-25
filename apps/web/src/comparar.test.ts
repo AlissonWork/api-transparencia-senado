@@ -38,6 +38,7 @@ function senador(nome: string): SenadorDaLista {
     uf: null,
     urlFoto: null,
     emExercicio: true,
+    suplenteDe: null,
     total: 0,
   }
 }

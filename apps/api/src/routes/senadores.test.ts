@@ -20,12 +20,20 @@ beforeAll(async () => {
   // - 1 e 3 são do PT (filtro partido)
   // - 3 está fora de exercício (filtro emExercicio)
   // - 4 não tem nenhuma despesa (total precisa ser 0, não sumir da lista)
+  // - 4 é suplente em exercício (suplenteDe)
   await prisma.senador.createMany({
     data: [
       { codigo: 1, nome: 'ANA', partido: 'PT', uf: 'CE', emExercicio: true },
       { codigo: 2, nome: 'BRUNO', partido: 'PL', uf: 'CE', emExercicio: true },
       { codigo: 3, nome: 'CARLA', partido: 'PT', uf: 'SP', emExercicio: false },
-      { codigo: 4, nome: 'DIEGO', partido: 'PSD', uf: 'RJ', emExercicio: true },
+      {
+        codigo: 4,
+        nome: 'DIEGO',
+        partido: 'PSD',
+        uf: 'RJ',
+        emExercicio: true,
+        suplenteDe: 'ELIAS',
+      },
     ],
   })
 
@@ -79,6 +87,7 @@ describe('GET /senadores', () => {
       uf: 'CE',
       urlFoto: null,
       emExercicio: true,
+      suplenteDe: null,
       total: 300,
     })
     expect(corpo.senadores.map((s: { total: number }) => s.total)).toEqual([
@@ -127,8 +136,14 @@ describe('GET /senadores/:codigo', () => {
       uf: 'CE',
       urlFoto: null,
       emExercicio: true,
+      suplenteDe: null,
       anosComDespesa: [2026, 2025],
     })
+  })
+
+  it('diz de quem o senador é suplente', async () => {
+    const res = await app.inject({ method: 'GET', url: '/senadores/4' })
+    expect(res.json().suplenteDe).toBe('ELIAS')
   })
 
   it('devolve lista de anos vazia para quem não tem despesa', async () => {

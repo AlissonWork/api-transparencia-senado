@@ -34,6 +34,11 @@ export const parlamentarSchema = z.object({
     SiglaPartidoParlamentar: z.string().optional(),
     UfParlamentar: z.string().length(2),
   }),
+  // Titular ou suplente. O suplente em exercício traz o nome de quem ele substitui.
+  Mandato: z.object({
+    DescricaoParticipacao: z.string(), // "Titular", "1º Suplente", "2º Suplente"
+    Titular: z.object({ NomeParlamentar: z.string() }).optional(),
+  }),
 })
 
 // A resposta inteira: a lista fica 3 níveis para dentro
@@ -68,6 +73,8 @@ export type ParlamentarSenado = z.infer<typeof parlamentarSchema>
 // Função pura: fácil de testar sem internet nem banco.
 export function converterParlamentar(p: ParlamentarSenado) {
   const id = p.IdentificacaoParlamentar
+  const mandato = p.Mandato
+  const eTitular = mandato.DescricaoParticipacao === 'Titular'
   return {
     codigo: id.CodigoParlamentar,
     nome: id.NomeParlamentar,
@@ -76,6 +83,11 @@ export function converterParlamentar(p: ParlamentarSenado) {
     uf: id.UfParlamentar,
     // http → https, senão o navegador bloqueia a foto no portal (conteúdo misto)
     urlFoto: id.UrlFotoParlamentar?.replace(/^http:\/\//, 'https://') ?? null,
+    // Suplente sem o nome do titular na resposta: guarda só "titular",
+    // para o portal ainda mostrar que é suplente.
+    suplenteDe: eTitular
+      ? null
+      : (mandato.Titular?.NomeParlamentar ?? 'titular'),
   }
 }
 
