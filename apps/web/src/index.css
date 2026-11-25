@@ -21,10 +21,18 @@
   --font-mono: 'Roboto Mono', ui-monospace, monospace;
 }
 
-/* Tamanho base da letra. Os botões A- e A+ mudam este valor,
+/* Tamanho base da letra. No celular é fixo (17px): aumentar a letra
+   numa tela estreita empurrava a página para os lados.
+   No computador, os botões A- e A+ mudam a variável --tamanho-letra,
    e tudo que usa rem (o Tailwind inteiro) acompanha. */
 html {
   font-size: 106.25%; /* 17px */
+}
+
+@media (min-width: 640px) {
+  html {
+    font-size: var(--tamanho-letra, 106.25%);
+  }
 }
 
 body {

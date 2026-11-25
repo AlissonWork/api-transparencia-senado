@@ -7,6 +7,7 @@ import { PaginaSenadores } from './pages/Senadores'
 import { PaginaPerfil } from './pages/Perfil'
 import { PaginaSobre } from './pages/Sobre'
 import { PaginaNaoEncontrada } from './pages/NaoEncontrada'
+import { PaginaComparar } from './pages/Comparar'
 
 // Acha a <div id="root"> do index.html e entrega ela ao React
 createRoot(document.getElementById('root')!).render(
@@ -18,6 +19,7 @@ createRoot(document.getElementById('root')!).render(
           <Route index element={<PaginaSenadores />} />
           <Route path="senador/:codigo" element={<PaginaPerfil />} />
           <Route path="sobre" element={<PaginaSobre />} />
+          <Route path="comparar" element={<PaginaComparar />} />
           <Route path="*" element={<PaginaNaoEncontrada />} />
         </Route>
       </Routes>
