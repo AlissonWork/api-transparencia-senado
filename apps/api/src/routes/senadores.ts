@@ -1,6 +1,7 @@
 import type { FastifyInstance } from 'fastify'
 import { z } from 'zod'
 import { criarPrisma } from '@ts/db'
+import { paraDoc, respostaErro } from '../docs.js'
 import { criarRepositorioSenadores } from '../repositories/senadores.js'
 
 // O que a URL pode trazer. Tudo na query string chega como TEXTO.
@@ -33,7 +34,16 @@ export async function rotasSenadores(app: FastifyInstance) {
   app.addHook('onClose', () => prisma.$disconnect())
   const repositorio = criarRepositorioSenadores(prisma)
 
-  app.get('/senadores', async (request, reply) => {
+  const docLista = {
+    tags: ['Senadores'],
+    summary: 'Lista os senadores com o total gasto no ano',
+    description:
+      'Do maior para o menor gasto. Quem não gastou nada aparece com total 0. emExercicio=true mostra só quem está no cargo hoje.',
+    querystring: paraDoc(listaQuerySchema),
+    response: { 400: { description: 'Parâmetro inválido', ...respostaErro } },
+  }
+
+  app.get('/senadores', { schema: docLista }, async (request, reply) => {
     // 1. Valida a query string
     const query = listaQuerySchema.safeParse(request.query)
     if (!query.success) {
@@ -53,7 +63,19 @@ export async function rotasSenadores(app: FastifyInstance) {
     return { ano: query.data.ano, quantidade: senadores.length, senadores }
   })
 
-  app.get('/senadores/:codigo', async (request, reply) => {
+  const docPerfil = {
+    tags: ['Senadores'],
+    summary: 'Perfil de um senador',
+    description:
+      'Nome, partido, estado, foto, se está no cargo, de quem é suplente (ou null) e os anos com despesa.',
+    params: paraDoc(perfilParamsSchema),
+    response: {
+      400: { description: 'Código inválido', ...respostaErro },
+      404: { description: 'Senador não encontrado', ...respostaErro },
+    },
+  }
+
+  app.get('/senadores/:codigo', { schema: docPerfil }, async (request, reply) => {
     // 1. Valida o parâmetro de rota (o :codigo vem em request.params)
     const params = perfilParamsSchema.safeParse(request.params)
     if (!params.success) {

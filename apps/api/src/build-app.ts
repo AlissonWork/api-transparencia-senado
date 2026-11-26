@@ -1,5 +1,6 @@
 import Fastify from 'fastify'
 import cors from '@fastify/cors'
+import { registrarDocs } from './docs.js'
 import { rotasDespesas } from './routes/despesas.js'
 import { rotasSenadores } from './routes/senadores.js'
 import { rotasRemuneracao } from './routes/remuneracao.js'
@@ -17,8 +18,16 @@ export function buildApp() {
     origin: (process.env.CORS_ORIGIN ?? 'http://localhost:5173').split(','),
   })
 
-  app.get('/health', async () => {
-    return { status: 'ok' }
+  // Documentação em /docs. Vem antes das rotas para o swagger ler o schema delas.
+  registrarDocs(app)
+
+  // Dentro de um register, como as outras rotas: o swagger também é um
+  // register, e só enxerga as rotas que entram na fila depois dele.
+  app.register(async (app) => {
+    const doc = { tags: ['Sistema'], summary: 'Confere se a API está no ar' }
+    app.get('/health', { schema: doc }, async () => {
+      return { status: 'ok' }
+    })
   })
 
   app.register(rotasDespesas)
