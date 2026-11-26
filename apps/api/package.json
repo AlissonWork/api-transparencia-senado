@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc",
+    "build": "pnpm --filter @ts/db generate && tsc",
     "start": "node dist/server.js",
     "test": "vitest run"
   },
