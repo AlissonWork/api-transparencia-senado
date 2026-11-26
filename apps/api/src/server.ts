@@ -10,9 +10,8 @@ const port = Number(process.env.PORT ?? 3333)
 
 const app = buildApp()
 
-try {
-  await app.listen({ port, host: '0.0.0.0' })
-} catch (err) {
+// Sem await: na Vercel o listen só conclui depois que este módulo termina de carregar
+app.listen({ port, host: '0.0.0.0' }).catch((err) => {
   app.log.error(err)
   process.exit(1)
-}
+})
