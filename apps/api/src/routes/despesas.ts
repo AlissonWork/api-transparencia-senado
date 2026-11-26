@@ -1,6 +1,7 @@
 import type { FastifyInstance } from 'fastify'
 import { z } from 'zod'
 import { criarPrisma } from '@ts/db'
+import { paraDoc, respostaErro } from '../docs.js'
 
 const paramsSchema = z.object({ codigo: z.coerce.number().int().positive() })
 const querySchema = z.object({
@@ -12,7 +13,20 @@ export async function rotasDespesas(app: FastifyInstance) {
   const prisma = criarPrisma()
   app.addHook('onClose', () => prisma.$disconnect())
 
-  app.get('/senadores/:codigo/gastos', async (request, reply) => {
+  const doc = {
+    tags: ['Gastos'],
+    summary: 'Gastos da cota no ano, por tipo e mês a mês',
+    description:
+      'porCategoria vem do maior para o menor (o primeiro é o maior gasto); porMes traz só os meses com gasto.',
+    params: paraDoc(paramsSchema),
+    querystring: paraDoc(querySchema),
+    response: {
+      400: { description: 'Parâmetro inválido', ...respostaErro },
+      404: { description: 'Senador não encontrado', ...respostaErro },
+    },
+  }
+
+  app.get('/senadores/:codigo/gastos', { schema: doc }, async (request, reply) => {
     // 1. Valida a entrada: código numérico e ano obrigatório
     const params = paramsSchema.safeParse(request.params)
     const query = querySchema.safeParse(request.query)

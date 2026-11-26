@@ -1,6 +1,7 @@
 import type { FastifyInstance } from 'fastify'
 import { z } from 'zod'
 import { criarPrisma } from '@ts/db'
+import { paraDoc, respostaErro } from '../docs.js'
 
 const paramsSchema = z.object({ codigo: z.coerce.number().int().positive() })
 const querySchema = z.object({
@@ -11,7 +12,20 @@ export async function rotasRemuneracao(app: FastifyInstance) {
   const prisma = criarPrisma()
   app.addHook('onClose', () => prisma.$disconnect())
 
-  app.get('/senadores/:codigo/remuneracao', async (request, reply) => {
+  const doc = {
+    tags: ['Gastos'],
+    summary: 'Salário mês a mês e o total líquido do ano',
+    description:
+      'Pela folha de pagamento do Senado (Normal + Suplementar somadas por mês). subsidio = bruto; liquido = o que cai na conta. Senador fora da folha recebe a lista vazia.',
+    params: paraDoc(paramsSchema),
+    querystring: paraDoc(querySchema),
+    response: {
+      400: { description: 'Parâmetro inválido', ...respostaErro },
+      404: { description: 'Senador não encontrado', ...respostaErro },
+    },
+  }
+
+  app.get('/senadores/:codigo/remuneracao', { schema: doc }, async (request, reply) => {
     // 1. Valida a entrada
     const params = paramsSchema.safeParse(request.params)
     const query = querySchema.safeParse(request.query)

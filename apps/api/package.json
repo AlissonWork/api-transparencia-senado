@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@fastify/cors": "^11.3.1",
+    "@fastify/swagger": "^9.9.5",
     "@ts/db": "workspace:*",
     "fastify": "^5.12.5",
     "zod": "^4.6.5"

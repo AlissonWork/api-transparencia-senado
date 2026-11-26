@@ -40,3 +40,41 @@ describe('CORS', () => {
     expect(res.headers['access-control-allow-origin']).toBeUndefined()
   })
 })
+
+describe('Documentação (/docs)', () => {
+  it('entrega a página do Swagger UI', async () => {
+    const app = buildApp()
+    const res = await app.inject({ method: 'GET', url: '/docs' })
+
+    expect(res.statusCode).toBe(200)
+    expect(res.headers['content-type']).toContain('text/html')
+    expect(res.body).toContain('swagger-ui')
+  })
+
+  it('descreve todas as rotas no documento OpenAPI', async () => {
+    const app = buildApp()
+    const res = await app.inject({ method: 'GET', url: '/docs/json' })
+    const doc = res.json()
+
+    expect(res.statusCode).toBe(200)
+    expect(doc.openapi).toMatch(/^3\./)
+    expect(Object.keys(doc.paths).sort()).toEqual([
+      '/health',
+      '/senadores',
+      '/senadores/{codigo}',
+      '/senadores/{codigo}/gastos',
+      '/senadores/{codigo}/remuneracao',
+      '/sincronizacao',
+    ])
+  })
+
+  it('documenta o ano como obrigatório na lista de senadores', async () => {
+    const app = buildApp()
+    const doc = (await app.inject({ method: 'GET', url: '/docs/json' })).json()
+    const ano = doc.paths['/senadores'].get.parameters.find(
+      (p: { name: string }) => p.name === 'ano',
+    )
+
+    expect(ano).toMatchObject({ in: 'query', required: true })
+  })
+})
