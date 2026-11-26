@@ -1,5 +1,7 @@
 import { existsSync } from 'node:fs'
 import { buildApp } from './build-app.js'
+// A Vercel só aceita como entrada um arquivo que importe o fastify diretamente
+import 'fastify'
 
 const env = new URL('../../../.env', import.meta.url)
 if (existsSync(env)) process.loadEnvFile(env)
