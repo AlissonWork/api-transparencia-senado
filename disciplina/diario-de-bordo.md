@@ -340,6 +340,70 @@ automático diário, mostrar ao cliente e começar a cota por estado.
 
 ---
 
+### Semana de 20/11
+
+**Quem trabalhou e quanto:** Alisson — 0h
+
+**O que foi feito:** Nada no código nem nos documentos nesta semana. A tag `v0.2.0` e a apresentação do Marco 2 foram
+em 13/11 (semana anterior).
+
+**Obstáculo:** O tempo parado foi
+compensado na semana seguinte, que concentrou o fechamento do Marco 3.
+
+**Contato com o público:** nenhum nesta semana.
+
+**Evidência coletada:** nenhuma.
+
+**Próxima semana:** ler a devolutiva do Marco 2, terminar as novidades do portal e publicar a API e o
+portal na internet.
+
+---
+
+### Semana de 27/11
+
+**Quem trabalhou e quanto:** Alisson — 15h (4h em 23/11; 5h em 25/11; 6h em 26/11)
+
+**O que foi feito:**
+
+- 23/11: devolutiva do Marco 2 lida; a ficha `marco-2.md` ficou sem as marcas de rascunho.
+- 23/11: rota `GET /sincronizacao`, que devolve a data do último sync que deu certo, com 4 testes, e
+  o rodapé do portal passou a mostrar "Atualizado em DD/MM".
+- 23/11: a tabela do salário mês a mês foi descartada (o subsídio é fixo e o líquido quase não muda)
+  e trocada pelos **gastos da cota mês a mês** no perfil: a rota de gastos ganhou `porMes` e o
+  perfil, uma tabela com barras, com o maior mês destacado.
+- 25/11: página **Comparar** (`/comparar?a=&b=`): dois senadores lado a lado, com o estado guardado
+  no endereço (link compartilhável) e a lógica de juntar categorias e meses separada da tela, com
+  testes. Os botões A-/A+ ficaram só no computador, porque no celular causavam rolagem lateral.
+- 25/11: o portal mostrava 92 senadores "no cargo" contra 81 cadeiras. Não era erro no código: o
+  banco estava desatualizado desde 12/11. Depois do sync, o perfil passou a mostrar o selo de
+  suplente em exercício.
+- 26/11: hospedagem decidida comparando Vercel, Render, Fly.io e Azure: tudo na Vercel, com o
+  banco no Supabase. Banco de produção criado (3 migrations e sync: 17.388 despesas, 92 senadores e
+  902 linhas de salário), API publicada como função _serverless_ e portal na CDN (PRs #45 e #46).
+- 26/11: senha do banco trocada, porque tinha aparecido numa conversa durante o deploy.
+- 26/11: README com os endereços públicos, a seção "Hospedagem e deploy" (diagrama, porquê da
+  Vercel, CI e CD) e a página do portal; coleção do Bruno com o ambiente de produção.
+
+**Aprendizado:** a diferença entre site estático (arquivos prontos na CDN) e função _serverless_
+(código que liga quando chega requisição), e por que uma função precisa de um _pooler_ de conexões
+com o banco (porta 6543) enquanto o sync usa a conexão direta (5432). Também: variável `VITE_` entra
+no build, então trocar o valor exige novo deploy; um caractere como `#` na senha quebra a URL e vai
+codificado (`%23`); e guardar o estado da página no endereço deixa qualquer tela compartilhável.
+
+**Obstáculo:** o deploy da API levou cerca de 3h de erros em sequência: o Supabase pausado por
+falta de uso, a senha com `#`, a Vercel sem achar o arquivo de entrada, o cache pulando a geração do
+Prisma, o pacote do banco apontando para `.ts`, o `await` no `listen()` travando a inicialização e
+a `DATABASE_URL` colada com defeito. Cada um foi resolvido lendo o log da Vercel, e os ajustes estão
+explicados no README. O sync segue manual, do PC; automatizá-lo uma vez por dia é o próximo passo.
+
+**Contato com o público:**
+
+**Evidência coletada:**
+
+**Próxima semana:**
+
+---
+
 ### Semana de DD/MM
 
 **Quem trabalhou e quanto:**

@@ -9,8 +9,8 @@
 
 <p align="center">
   <a href="https://github.com/AlissonWork/api-transparencia-senado/actions/workflows/ci.yml"><img src="https://github.com/AlissonWork/api-transparencia-senado/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <img src="https://img.shields.io/badge/vers%C3%A3o-v0.2.0-0a6b35" alt="versão v0.2.0">
-  <img src="https://img.shields.io/badge/testes-60-0a6b35" alt="60 testes">
+  <img src="https://img.shields.io/badge/vers%C3%A3o-v1.0.0-0a6b35" alt="versão v1.0.0">
+  <img src="https://img.shields.io/badge/testes-95-0a6b35" alt="95 testes">
   <img src="https://img.shields.io/badge/licen%C3%A7a-MIT-12357a" alt="Licença MIT">
 </p>
 
@@ -26,18 +26,26 @@
 </p>
 
 <p align="center">
+  <a href="https://de-olho-na-cota.vercel.app"><strong>🌐 Abrir o portal</strong></a> ·
+  <a href="https://api-transparencia-senado.vercel.app/docs"><strong>📖 Documentação da API</strong></a>
+</p>
+
+<p align="center">
   <a href="#-por-que-existe">Por que existe</a> ·
   <a href="#-arquitetura">Arquitetura</a> ·
+  <a href="#-hospedagem-e-deploy">Hospedagem</a> ·
   <a href="#-rotas-da-api">Rotas da API</a> ·
+  <a href="#-documentação-da-api-swagger">Swagger</a> ·
   <a href="#-como-rodar-localmente">Como rodar</a> ·
   <a href="#-roadmap">Roadmap</a>
 </p>
 
 > [!NOTE]
-> **Status: v0.2.0 (Marco 2).** Funciona de ponta a ponta na sua máquina: o sync traz as despesas, os
-> senadores e a folha de pagamento do Senado, a API entrega tudo em JSON e o portal mostra a lista,
-> o perfil e o salário de cada senador, também no celular. O endereço público chega no Marco 3
-> (27/11/2026).
+> **Status: v1.0.0 (Marco 3), no ar.** O portal está em <https://de-olho-na-cota.vercel.app> e a API
+> em <https://api-transparencia-senado.vercel.app>, com a documentação interativa em
+> [`/docs`](https://api-transparencia-senado.vercel.app/docs). Dá para ver quanto cada senador gastou
+> da cota, em quê e mês a mês, quanto recebe de salário, e comparar dois senadores lado a lado,
+> também no celular.
 
 ---
 
@@ -51,11 +59,11 @@ este ano?"_, é preciso baixar, filtrar e somar tudo isso por conta própria.
 Este projeto faz essa soma e entrega a resposta pronta: por uma **API aberta** (sem cadastro nem
 chave) e por um **portal** que qualquer pessoa consegue usar.
 
-### Em números (dados de 2026, sync de 11 e 12/11)
+### Em números (dados de 2026, sync de 26/11)
 
 | 🧾 Notas fiscais |       👤 Senadores       | 💰 Linhas de salário | 🔌 Rotas | ✅ Testes |
 | :--------------: | :----------------------: | :------------------: | :------: | :-------: |
-|    **16.505**    | **92** (81 em exercício) |       **902**        |  **5**   |  **60**   |
+|    **17.388**    | **92** (81 em exercício) |       **902**        |  **6**   |  **95**   |
 
 ## 🏗️ Arquitetura
 
@@ -130,171 +138,111 @@ como texto), **consulta o banco** pelo Prisma (ou por um _repository_, quando a 
 O modelo do banco (diagrama, tabelas e decisões) está em
 [`docs/banco-de-dados.md`](docs/banco-de-dados.md).
 
+## ☁️ Hospedagem e deploy
+
+O projeto está publicado em três serviços, cada um fazendo o que faz melhor:
+
+```mermaid
+flowchart LR
+    U["👤 Navegador"] -- "HTML, JS e CSS" --> CDN["🖥️ Portal<br/>Vercel (CDN)<br/>de-olho-na-cota.vercel.app"]
+    U -- "fetch (JSON, com CORS)" --> FN["🔌 API<br/>Vercel Function (Fastify)<br/>api-transparencia-senado.vercel.app"]
+    FN -- "porta 6543<br/>(pooler, modo transação)" --> POOL["🔀 Supavisor<br/>pooler do Supabase"]
+    POOL --> DB[("🐘 PostgreSQL<br/>Supabase · São Paulo")]
+    PC["💻 sync<br/>roda no PC do mantenedor"] -- "porta 5432<br/>(modo sessão)" --> DB
+    SEN["🏛️ APIs do Senado"] --> PC
+```
+
+| Peça       | Onde roda                                   | Como                                                                                                   |
+| :--------- | :------------------------------------------ | :----------------------------------------------------------------------------------------------------- |
+| **portal** | Vercel, como site estático na CDN           | o `vite build` gera arquivos prontos, servidos do servidor mais perto de quem acessa                   |
+| **API**    | Vercel, como função _serverless_            | o mesmo Fastify de sempre; a Vercel liga uma instância quando chega requisição e desliga quando não há |
+| **banco**  | Supabase (PostgreSQL gerenciado, sa-east-1) | a API entra pelo _pooler_ (porta 6543), que reaproveita poucas conexões entre muitas funções           |
+| **sync**   | PC do mantenedor, por enquanto à mão        | roda fora da Vercel, porque a coleta passa do tempo máximo de uma função; a automação diária é o próximo passo |
+
+### Por que a Vercel
+
+A escolha comparou quatro opções, com três critérios: ficar no ar sem
+custo depois da disciplina, parecer profissional e dar pouco trabalho de operação.
+
+| Opção                  | Ponto forte                                                                    | Por que não                                                                                |
+| :--------------------- | :----------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------- |
+| **Vercel** (escolhida) | portal e API no mesmo lugar, HTTPS, deploy a cada push, prévia por PR, grátis  | a função _serverless_ tem limite de tempo por requisição (não serve para o sync)           |
+| Render                 | servidor Node tradicional, simples                                             | no plano grátis o servidor **dorme** após 15 min sem uso: a primeira visita demora ~1 min |
+| Fly.io                 | servidor sempre ligado, controle total                                         | pede cartão e exige cuidar de máquina, região e memória                                    |
+| Azure (GitHub Student) | nuvem "corporativa", boa para o currículo                                      | o crédito de US$ 100 acaba quando o vínculo de estudante termina                           |
+
+A API foi feita desde o início **desacoplada do servidor**: `buildApp()` (em
+`apps/api/src/build-app.ts`) monta o Fastify com as rotas, e só o `server.ts` chama o `listen()`.
+Os testes usam o `buildApp()` sem abrir porta, e a mesma API pode ir para outro serviço (um servidor
+comum, um container) sem mudar as rotas.
+
+**E a escalabilidade?** O portal é estático, então aguenta muito acesso sem custo extra. A API é só
+leitura e escala sozinha, abrindo mais instâncias conforme a demanda. O gargalo seria o número de
+conexões com o banco, e é isso que o _pooler_ resolve. Como os dados mudam uma vez por dia, o
+próximo passo é guardar as respostas em cache na CDN (veja o [Roadmap](#-roadmap)).
+
+### CI e CD
+
+- **CI (integração contínua), no GitHub Actions:** a cada PR e a cada push na `main`, instala tudo
+  do zero, aplica as migrations num Postgres temporário, compila e roda os testes
+  ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)).
+- **CD (entrega contínua), na Vercel:** os dois projetos da Vercel estão ligados ao repositório. Cada
+  push na `main` publica em produção, e cada PR ganha um endereço de prévia próprio, para conferir
+  antes do merge. Como a `main` é protegida e só recebe PR com CI verde, o que chega em produção já
+  passou nos testes.
+- **Fora do automático:** as migrations de produção (`prisma migrate deploy`) e o sync são rodados
+  à mão, do PC do mantenedor, pela porta 5432 do Supabase.
+
+### Variáveis de ambiente em produção
+
+| Projeto na Vercel   | Variável       | Valor                                                                                   |
+| :------------------ | :------------- | :-------------------------------------------------------------------------------------- |
+| API (`apps/api`)    | `DATABASE_URL` | URL do Supabase na porta **6543**, sem `?pgbouncer=true`                                |
+| API (`apps/api`)    | `CORS_ORIGIN`  | `https://de-olho-na-cota.vercel.app`                                                    |
+| portal (`apps/web`) | `VITE_API_URL` | `https://api-transparencia-senado.vercel.app` (entra no build: mudar exige novo deploy) |
+
+
 ## 🔌 Rotas da API
 
-Base local: `http://localhost:3333`. Sem cadastro, sem chave, só `GET`.
+Base pública: `https://api-transparencia-senado.vercel.app` (local: `http://localhost:3333`). Sem
+cadastro, sem chave, só `GET`.
 
-| Método | Rota                                                                         | O que responde                                                     |
-| :----- | :--------------------------------------------------------------------------- | :----------------------------------------------------------------- |
-| `GET`  | [`/health`](#get-health)                                                     | se a API está no ar                                                |
-| `GET`  | [`/senadores?ano=`](#get-senadoresano)                                       | todos os senadores com o total gasto no ano, do maior para o menor |
-| `GET`  | [`/senadores/{codigo}`](#get-senadorescodigo)                                | perfil de um senador                                               |
-| `GET`  | [`/senadores/{codigo}/gastos?ano=`](#get-senadorescodigogastosano)           | total gasto no ano e a divisão por tipo de gasto                   |
-| `GET`  | [`/senadores/{codigo}/remuneracao?ano=`](#get-senadorescodigoremuneracaoano) | salário mês a mês e o total líquido do ano                         |
-
-| Status | Quando                                                                         |
-| :----: | :----------------------------------------------------------------------------- |
-| `200`  | deu certo (lista vazia também é resposta válida)                               |
-| `400`  | parâmetro inválido: falta o `ano`, código com letras, UF com mais de 2 letras… |
-| `404`  | senador que não existe no banco                                                |
-
-### `GET /health`
-
-Confere se a API está no ar. Responde `200`.
-
-### `GET /senadores?ano=`
-
-Todos os senadores do banco (ou só os que passam nos filtros) com o total gasto no ano, **do maior
-para o menor**. Quem não gastou nada aparece com `total: 0`.
-
-| Parâmetro     | Obrigatório | Exemplo | O que faz                                                                        |
-| :------------ | :---------: | :------ | :------------------------------------------------------------------------------- |
-| `ano`         |     ✅      | `2026`  | ano das despesas                                                                 |
-| `uf`          |             | `CE`    | só senadores do estado                                                           |
-| `partido`     |             | `PT`    | só senadores do partido                                                          |
-| `emExercicio` |             | `true`  | `true` só quem está no cargo hoje; `false` só quem saiu (por exemplo, suplentes) |
+| Método | Rota                                   | O que responde                                                     |
+| :----- | :------------------------------------- | :----------------------------------------------------------------- |
+| `GET`  | `/health`                              | se a API está no ar                                                |
+| `GET`  | `/senadores?ano=`                      | todos os senadores com o total gasto no ano, do maior para o menor |
+| `GET`  | `/senadores/{codigo}`                  | perfil de um senador                                               |
+| `GET`  | `/senadores/{codigo}/gastos?ano=`      | total gasto no ano, por tipo de gasto e mês a mês                  |
+| `GET`  | `/senadores/{codigo}/remuneracao?ano=` | salário mês a mês e o total líquido do ano                         |
+| `GET`  | `/sincronizacao`                       | data e hora da última atualização dos dados                        |
 
 ```bash
-curl "http://localhost:3333/senadores?ano=2026&uf=CE&emExercicio=true"
+curl "https://api-transparencia-senado.vercel.app/senadores?ano=2026&uf=CE"
 ```
 
-<details>
-<summary>Ver o formato da resposta</summary>
+## 📖 Documentação da API (Swagger)
 
-```json
-{
-  "ano": 2026,
-  "quantidade": 3,
-  "senadores": [
-    {
-      "codigo": 5926,
-      "nome": "Nome do Senador",
-      "partido": "PARTIDO",
-      "uf": "CE",
-      "urlFoto": "https://www.senado.leg.br/.../senador5926.jpg",
-      "emExercicio": true,
-      "suplenteDe": null,
-      "total": 412345.67
-    }
-  ]
-}
-```
+**<https://api-transparencia-senado.vercel.app/docs>** (local: `http://localhost:3333/docs`)
 
-</details>
+A documentação é gerada pelo próprio código da API, então nunca fica desatualizada: cada rota
+declara os seus parâmetros, e o [`@fastify/swagger`](https://github.com/fastify/fastify-swagger)
+monta a partir disso um documento [OpenAPI](https://www.openapis.org/), que o Swagger UI mostra como
+página. Os parâmetros saem dos mesmos schemas Zod que validam cada requisição
+([`apps/api/src/docs.ts`](apps/api/src/docs.ts)).
 
-### `GET /senadores/{codigo}`
+O mesmo conteúdo em JSON, para importar no Bruno, no Postman ou em outro sistema, fica em
+[`/docs/json`](https://api-transparencia-senado.vercel.app/docs/json).
 
-Perfil de um senador: nome parlamentar e completo, partido, estado, foto, se está no cargo e os anos
-em que teve despesa (o portal usa essa lista no seletor de ano).
+## 🖥️ O portal
 
-O campo `suplenteDe` (também na lista) traz o nome do titular quando o senador é um suplente em
-exercício, e `null` quando ele é o próprio titular.
+<https://de-olho-na-cota.vercel.app>
 
-```bash
-curl "http://localhost:3333/senadores/5926"
-```
-
-<details>
-<summary>Ver o formato da resposta</summary>
-
-```json
-{
-  "codigo": 5926,
-  "nome": "Nome do Senador",
-  "nomeCompleto": "Nome Completo do Senador",
-  "partido": "PARTIDO",
-  "uf": "CE",
-  "urlFoto": "https://www.senado.leg.br/.../senador5926.jpg",
-  "emExercicio": true,
-  "suplenteDe": null,
-  "anosComDespesa": [2026, 2025]
-}
-```
-
-</details>
-
-### `GET /senadores/{codigo}/gastos?ano=`
-
-Quanto o senador gastou da cota no ano, dividido por tipo de gasto (com nomes curtos, como
-"Passagens"), do maior para o menor. O primeiro item é o **maior gasto**, que o portal destaca.
-
-```bash
-curl "http://localhost:3333/senadores/5926/gastos?ano=2026"
-```
-
-<details>
-<summary>Ver o formato da resposta</summary>
-
-```json
-{
-  "senador": { "codigo": 5926, "nome": "Nome do Senador" },
-  "ano": 2026,
-  "total": 486321.28,
-  "porCategoria": [
-    {
-      "categoria": "Transporte, hospedagem e alimentação",
-      "slug": "transporte",
-      "quantidade": 159,
-      "total": 250764.4
-    },
-    {
-      "categoria": "Passagens",
-      "slug": "passagens",
-      "quantidade": 33,
-      "total": 104331.41
-    }
-  ]
-}
-```
-
-</details>
-
-### `GET /senadores/{codigo}/remuneracao?ano=`
-
-O salário do senador mês a mês, pela folha de pagamento do Senado. Quando há folha Normal e
-Suplementar no mesmo mês, as duas são somadas. Senador que não está na folha recebe `200` com a
-lista vazia.
-
-| Campo          | O que é                                                      |
-| :------------- | :----------------------------------------------------------- |
-| `subsidio`     | o salário bruto, antes dos descontos                         |
-| `liquido`      | o que cai na conta, depois de previdência e imposto de renda |
-| `totalLiquido` | a soma do líquido no ano                                     |
-
-```bash
-curl "http://localhost:3333/senadores/5926/remuneracao?ano=2026"
-```
-
-<details>
-<summary>Ver o formato da resposta</summary>
-
-```json
-{
-  "senador": { "codigo": 5926, "nome": "Nome do Senador" },
-  "ano": 2026,
-  "meses": [
-    { "mes": 9, "subsidio": 46366.19, "liquido": 33500.12 },
-    { "mes": 10, "subsidio": 46366.19, "liquido": 33500.12 }
-  ],
-  "totalLiquido": 67000.24
-}
-```
-
-</details>
-
-> Os valores dos exemplos são ilustrativos. Qualquer total pode ser conferido no resumo oficial do
-> Senado, por exemplo:
-> <https://adm.senado.gov.br/adm-dadosabertos/api/v1/senadores/5926/recursos-utilizados>.
+| Página         | Endereço                 | O que mostra                                                                                                                                                |
+| :------------- | :----------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Lista          | `/?uf=CE`                | senadores com o total gasto no ano, do maior para o menor; busca por nome e filtros de estado, partido e "só quem está no cargo" (o endereço guarda o filtro) |
+| Perfil         | `/senador/5926`          | total do ano, posição no ranking, maior gasto, divisão por tipo, gastos mês a mês, salário e colegas do mesmo estado; link para conferir no site do Senado   |
+| Comparar       | `/comparar?a=5926&b=...` | dois senadores lado a lado (resumo, tipos de gasto e meses), com o maior valor de cada linha destacado; o link pode ser compartilhado                        |
+| Sobre os dados | `/sobre`                 | de onde vêm os dados, o que é a cota e o que o portal não mostra, em linguagem simples                                                                       |
 
 ## 🧪 Testar a API
 
@@ -304,13 +252,15 @@ erro**, cada uma com uma descrição e um teste automático.
 
 ```
 bruno/
-├── environments/local.bru      baseUrl, ano, codigo, uf
+├── environments/local.bru      baseUrl, ano, codigo, uf (API na sua máquina)
+├── environments/producao.bru   as mesmas variáveis, apontando para a API publicada
 ├── health.bru
 ├── Senadores/                  lista, lista por estado, perfil, gastos, salário
 └── Erros/                      404 senador inexistente · 400 sem ano · 400 código com letras
 ```
 
-No Bruno: **Open Collection** → pasta `bruno` → ambiente **local** (canto superior direito). Trocar
+No Bruno: **Open Collection** → pasta `bruno` → ambiente **producao** ou **local** (canto superior
+direito). Trocar
 a variável `codigo` muda o senador de todas as requisições de uma vez. Pelo terminal também dá:
 `curl` com os exemplos acima, ou no PowerShell `curl.exe`.
 
@@ -339,6 +289,7 @@ guardado.
 | Ambiente local | Docker Compose                             | Postgres igual para qualquer pessoa, com um comando                                |
 | Monorepo       | pnpm workspaces                            | sync, API, portal e banco no mesmo repositório, compartilhando o pacote `@ts/db`   |
 | CI             | GitHub Actions                             | a cada PR: instalação limpa, migrations, build e testes                            |
+| Hospedagem     | Vercel + Supabase                          | portal na CDN, API como função _serverless_, PostgreSQL gerenciado em São Paulo    |
 
 ## 📁 Estrutura do repositório
 
@@ -489,8 +440,19 @@ Em desenvolvimento, nenhuma precisa ser alterada.
   - [x] salário dos senadores (sync da folha, rota e seção no perfil)
   - [x] portal no celular e identidade visual
   - [x] uso por uma pessoa de fora, com retorno escrito
-- [ ] **v1.0.0 (27/11/2026)**: API e portal publicados em endereço público, sync automático diário,
-      cota disponível por estado ("usou X% do limite"), comparação de senadores e mapa do Brasil
+- [x] **v1.0.0 (27/11/2026)**: publicado na internet
+  - [x] API e portal na Vercel, banco no Supabase, deploy automático a cada push na `main`
+  - [x] documentação interativa da API em `/docs`
+  - [x] gastos da cota mês a mês no perfil
+  - [x] comparação de dois senadores lado a lado
+  - [x] data da última atualização no rodapé e selo de suplente em exercício
+- [ ] **Próximos passos**
+  - [ ] cache HTTP nas respostas da API (os dados mudam uma vez por dia)
+  - [ ] erro 500 sem detalhes internos em produção
+  - [ ] sync automático diário, sem o ano fixo no código
+  - [ ] cota disponível por estado ("usou X% do limite")
+  - [ ] mapa do Brasil com o gasto por estado
+  - [ ] pacote `@ts/db` compilado para JavaScript
 
 ## 🤝 Como contribuir
 

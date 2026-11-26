@@ -9,8 +9,8 @@ dados abertos do Senado Federal. Visão geral, fontes e roadmap no `README.md`; 
 cronograma no `disciplina/plano-de-acao.md`.
 
 É a ação de extensão da disciplina CC0464 (UFC, 2026.2), feita individualmente pelo Alisson.
-Próximo prazo: **Marco 1 em 02/10/2026** — rota `GET /senadores/{id}/gastos?ano=` publicada com
-dados reais.
+Publicado em 26/11/2026: portal em https://de-olho-na-cota.vercel.app e API em
+https://api-transparencia-senado.vercel.app. Socialização em 04/12/2026.
 
 ## Stack
 
@@ -23,7 +23,7 @@ dados reais.
 | Testes | Vitest |
 | Monorepo | pnpm workspaces |
 | CI | GitHub Actions |
-| Deploy da API | a definir (Render é a opção atual) |
+| Hospedagem | Vercel (portal na CDN e API serverless) + Supabase; sync manual do PC |
 
 ## Estrutura planejada
 
