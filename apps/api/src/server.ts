@@ -1,5 +1,5 @@
 import { existsSync } from 'node:fs'
-import { buildApp } from './app.js'
+import { buildApp } from './build-app.js'
 
 const env = new URL('../../../.env', import.meta.url)
 if (existsSync(env)) process.loadEnvFile(env)

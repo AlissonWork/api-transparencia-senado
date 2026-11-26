@@ -1,6 +1,6 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { criarPrisma } from '@ts/db'
-import { buildApp } from '../app.js'
+import { buildApp } from '../build-app.js'
 
 // Banco SÓ de teste: os dados daqui são apagados a cada execução
 const URL_TESTE =
