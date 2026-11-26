@@ -1,6 +1,6 @@
 import { afterAll, beforeEach, describe, expect, it } from 'vitest'
 import { criarPrisma } from '@ts/db'
-import { buildApp } from '../app.js'
+import { buildApp } from '../build-app.js'
 
 const URL_TESTE =
   'postgresql://senado:senado@localhost:5432/transparencia_teste'
