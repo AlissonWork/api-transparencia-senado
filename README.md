@@ -10,7 +10,7 @@
 <p align="center">
   <a href="https://github.com/AlissonWork/api-transparencia-senado/actions/workflows/ci.yml"><img src="https://github.com/AlissonWork/api-transparencia-senado/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <img src="https://img.shields.io/badge/vers%C3%A3o-v1.0.0-0a6b35" alt="versão v1.0.0">
-  <img src="https://img.shields.io/badge/testes-95-0a6b35" alt="95 testes">
+  <img src="https://img.shields.io/badge/testes-104-0a6b35" alt="104 testes">
   <img src="https://img.shields.io/badge/licen%C3%A7a-MIT-12357a" alt="Licença MIT">
 </p>
 
@@ -63,7 +63,7 @@ chave) e por um **portal** que qualquer pessoa consegue usar.
 
 | 🧾 Notas fiscais |       👤 Senadores       | 💰 Linhas de salário | 🔌 Rotas | ✅ Testes |
 | :--------------: | :----------------------: | :------------------: | :------: | :-------: |
-|    **17.388**    | **92** (81 em exercício) |       **902**        |  **6**   |  **95**   |
+|    **17.388**    | **92** (81 em exercício) |       **902**        |  **6**   |  **104**   |
 
 ## 🏗️ Arquitetura
 
