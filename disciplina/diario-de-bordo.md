@@ -1,6 +1,7 @@
-# Diário de bordo — modelo
+# Diário de bordo — Transparência Senado
 
-Copie este arquivo para o repositório da equipe e mantenha-o lá. É o registro que:
+Registro semanal da ação de extensão (projeto individual de Alisson dos Santos Nascimento). É o
+registro que:
 
 - **comprova as 28 horas** de execução autônoma por integrante (as horas de extensão que acontecem
   fora dos encontros de sexta);
@@ -347,8 +348,8 @@ automático diário, mostrar ao cliente e começar a cota por estado.
 **O que foi feito:** Nada no código nem nos documentos nesta semana. A tag `v0.2.0` e a apresentação do Marco 2 foram
 em 13/11 (semana anterior).
 
-**Obstáculo:** O tempo parado foi
-compensado na semana seguinte, que concentrou o fechamento do Marco 3.
+**Obstáculo:** uma demanda grande do trabalho ocupou a semana inteira e não sobrou tempo para o
+projeto. O tempo parado foi compensado na semana seguinte, que concentrou o fechamento do Marco 3.
 
 **Contato com o público:** nenhum nesta semana.
 
@@ -361,7 +362,7 @@ portal na internet.
 
 ### Semana de 27/11
 
-**Quem trabalhou e quanto:** Alisson — 15h (4h em 23/11; 5h em 25/11; 6h em 26/11)
+**Quem trabalhou e quanto:** Alisson — 16h (4h em 23/11; 5h em 25/11; 6h em 26/11; 1h em 27/11)
 
 **O que foi feito:**
 
@@ -383,6 +384,10 @@ portal na internet.
 - 26/11: senha do banco trocada, porque tinha aparecido numa conversa durante o deploy.
 - 26/11: README com os endereços públicos, a seção "Hospedagem e deploy" (diagrama, porquê da
   Vercel, CI e CD) e a página do portal; coleção do Bruno com o ambiente de produção.
+- 26/11: documentação interativa da API com Swagger em `/docs` (PR #47), gerada dos mesmos schemas
+  Zod que validam as requisições, e a `main` passou a exigir o check "testes" para aceitar PR.
+- 27/11: o link do portal publicado foi enviado ao cliente, que usou o portal sozinho no celular
+  (#20), e esta ficha do Marco 3 foi preenchida com as evidências.
 
 **Aprendizado:** a diferença entre site estático (arquivos prontos na CDN) e função _serverless_
 (código que liga quando chega requisição), e por que uma função precisa de um _pooler_ de conexões
@@ -396,50 +401,25 @@ Prisma, o pacote do banco apontando para `.ts`, o `await` no `listen()` travando
 a `DATABASE_URL` colada com defeito. Cada um foi resolvido lendo o log da Vercel, e os ajustes estão
 explicados no README. O sync segue manual, do PC; automatizá-lo uma vez por dia é o próximo passo.
 
-**Contato com o público:**
+**Contato com o público:** 27/11, às 17h12, o link do portal publicado
+(<https://de-olho-na-cota.vercel.app>) foi enviado ao cliente por WhatsApp, com 3 tarefas (achar um
+senador do seu estado, ver em que ele mais gastou e comparar dois senadores) e 4 perguntas. Ele fez
+as tarefas sozinho, no próprio celular, sem ninguém do projeto por perto: às 17h16 mandou o print da
+tela Comparar com dois senadores escolhidos por ele e às 17h17 respondeu que conseguiu fazer as 3
+coisas ("Sim"), que nada ficou confuso ("Não"), que o que mais chamou atenção foi a "Facilidade de
+usar o site" e que usaria de novo ou mostraria para alguém ("Sim"). Com isso, as duas pessoas de
+fora do plano (o vizinho e o cliente) já usaram o portal, e o cliente usou o endereço público.
 
-**Evidência coletada:**
+**Evidência coletada:** prints sem o nome e a foto do contato, em `disciplina/evidencias/`:
+[mensagem enviada](evidencias/2026-11-27-mensagem-ao-cliente.png),
+[tela Comparar no celular dele](evidencias/2026-11-27-cliente-comparar.png) e
+[respostas às 4 perguntas](evidencias/2026-11-27-resposta-cliente.png); três linhas no
+`disciplina/evidencias.csv`.
 
-**Próxima semana:**
-
----
-
-### Semana de DD/MM
-
-**Quem trabalhou e quanto:**
-
-**O que foi feito:**
-
-**Obstáculo:**
-
-**Contato com o público:**
-
-**Evidência coletada:**
-
-**Próxima semana:**
-
----
-
-## Exemplo de entrada preenchida
-
-### Semana de 22/09
-
-**Quem trabalhou e quanto:** Ana — 3h; Bruno — 2h; Carla — 2h30
-
-**O que foi feito:**
-
-- Baixamos o censo escolar de 2024 e contamos vazios nas colunas de infraestrutura (Ana).
-- Primeira rota da API respondendo com dados fixos (Bruno).
-- Escrevemos o e-mail para a coordenadora da escola do bairro (Carla).
-
-**Obstáculo:** o arquivo veio com separador `;` e codificação latin-1; perdemos ~1h até
-descobrir. Resolvido.
-
-**Contato com o público:** e-mail enviado à coordenadora em 24/09, sem resposta ainda.
-
-**Evidência coletada:** cópia do e-mail enviado, em `evidencias/2026-09-24-email.pdf`.
-
-**Próxima semana:** trocar dados fixos pelos reais; cobrar resposta do e-mail.
+**Próxima semana:** socialização e autoavaliação em 04/12 (demonstração ao vivo consultando o
+senador de alguém da plateia, com plano B gravado). Antes disso: contador de acessos para medir os
+visitantes únicos, cache HTTP nas respostas da API, sync automático diário e divulgação do link no
+LinkedIn.
 
 ---
 
